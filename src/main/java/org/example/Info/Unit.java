@@ -46,4 +46,54 @@ public class Unit {
         this.buildingTime = buildingTime;
         this.livingPoint = livingPoint;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<AGES> getAllAges() {
+        return allAges;
+    }
+
+    public void setAllAges(ArrayList<AGES> allAges) {
+        this.allAges = allAges;
+    }
+
+    public String getUnitBatiment() {
+        return unitBatiment;
+    }
+
+    public void setUnitBatiment(String unitBatiment) {
+        this.unitBatiment = unitBatiment;
+    }
+
+    public ArrayList<String> getUnitCost() {
+        return unitCost;
+    }
+
+    public void setUnitCost(ArrayList<String> unitCost) {
+        this.unitCost = unitCost;
+    }
+
+    public String getBuildingTime() {
+        return buildingTime;
+    }
+
+    public void setBuildingTime(String buildingTime) {
+        this.buildingTime = buildingTime;
+    }
+
+    public String getLivingPoint() {
+        return livingPoint;
+    }
+
+    public void setLivingPoint(String livingPoint) {
+        this.livingPoint = livingPoint;
+    }
+
+
 }
