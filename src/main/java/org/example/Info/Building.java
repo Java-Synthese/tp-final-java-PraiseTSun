@@ -39,5 +39,69 @@ public class Building {
         this.visibility = visibility;
         this.civilisations = civilisations;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ArrayList<Integer> getAges() {
+        return ages;
+    }
+
+    public void setAges(ArrayList<Integer> ages) {
+        this.ages = ages;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ArrayList<String> getCost() {
+        return cost;
+    }
+
+    public void setCost(ArrayList<String> cost) {
+        this.cost = cost;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getHitPoint() {
+        return hitPoint;
+    }
+
+    public void setHitPoint(int hitPoint) {
+        this.hitPoint = hitPoint;
+    }
+
+    public int getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    public ArrayList<String> getCivilisations() {
+        return civilisations;
+    }
+
+    public void setCivilisations(ArrayList<String> civilisations) {
+        this.civilisations = civilisations;
+    }
 }
 
