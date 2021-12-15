@@ -2,6 +2,8 @@ package org.example;
 
 public class App {
     public static void main( String[] args ) {
-        System.out.println( "Hello World!" );
+        String[] arg = {"--server", "-port", "24", "--data", "data/", "--threads", "test"};
+        ServerHandler server = new ServerHandler();
+        server.initServer(arg);
     }
 }
