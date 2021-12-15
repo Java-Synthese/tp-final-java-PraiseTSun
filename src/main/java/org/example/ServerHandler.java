@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import org.apache.commons.io.FilenameUtils;
 
 public class ServerHandler {
     private enum infoNeeded{
@@ -36,9 +37,13 @@ public class ServerHandler {
         File[] listOfFiles = folder.listFiles();
 
         for ( File file : listOfFiles) {
-            if(file.isFile())
+            if(acceptedFile(file, "tab"))
                 System.out.println(file.getName());
         }
+    }
+
+    private boolean acceptedFile(File file, String extention){
+        return file.isFile() && FilenameUtils.getExtension(file.getName()).equals(extention);
     }
 
     private void readData(){
