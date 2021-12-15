@@ -25,26 +25,19 @@ public class Unit {
     private String unitBatiment;
     private ArrayList<String> unitCost;
     private String buildingTime;
-    private String livingPoint;
+    private int livingPoint;
+    private int visibility;
+    private ArrayList<String> civilisations;
 
-
-    public Unit() {
-        this.name = "Unknow";
-        this.allAges = new ArrayList<>();
-        this.unitBatiment = "None";
-        this.unitCost = new ArrayList<>();
-        this.buildingTime = "0";
-        this.livingPoint = "None";
-    }
-
-
-    public Unit(String name, ArrayList<AGES> allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, String livingPoint) {
+    public Unit(String name, ArrayList<AGES> allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, int livingPoint, int visibility, ArrayList<String> civilisations) {
         this.name = name;
         this.allAges = allAges;
         this.unitBatiment = unitBatiment;
         this.unitCost = unitCost;
         this.buildingTime = buildingTime;
         this.livingPoint = livingPoint;
+        this.visibility = visibility;
+        this.civilisations = civilisations;
     }
 
     public String getName() {
@@ -87,13 +80,27 @@ public class Unit {
         this.buildingTime = buildingTime;
     }
 
-    public String getLivingPoint() {
+    public int getLivingPoint() {
         return livingPoint;
     }
 
-    public void setLivingPoint(String livingPoint) {
+    public void setLivingPoint(int livingPoint) {
         this.livingPoint = livingPoint;
     }
 
+    public int getVisibility() {
+        return visibility;
+    }
 
+    public void setVisibility(int visibility) {
+        this.visibility = visibility;
+    }
+
+    public ArrayList<String> getCivilisations() {
+        return civilisations;
+    }
+
+    public void setCivilisations(ArrayList<String> civilisations) {
+        this.civilisations = civilisations;
+    }
 }
