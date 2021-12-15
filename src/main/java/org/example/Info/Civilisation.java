@@ -15,5 +15,43 @@ public class Civilisation {
         this.uniqueTechnology = uniqueTechnology;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public String getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(String bonus) {
+        this.bonus = bonus;
+    }
+
+    public String getUniqueUnity() {
+        return uniqueUnity;
+    }
+
+    public void setUniqueUnity(String uniqueUnity) {
+        this.uniqueUnity = uniqueUnity;
+    }
+
+    public String getUniqueTechnology() {
+        return uniqueTechnology;
+    }
+
+    public void setUniqueTechnology(String uniqueTechnology) {
+        this.uniqueTechnology = uniqueTechnology;
+    }
 }
