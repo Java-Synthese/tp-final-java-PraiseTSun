@@ -8,6 +8,11 @@ public class ServerHandler {
     private int serverPort;
     private Path dataFolder;
 
+    public void initServer(String[] arguments){
+        argumentsHandler(arguments);
+
+    }
+
     public void argumentsHandler(String[] arguments){
         if(arguments.length < 7)
             throw new RuntimeException("There are some missing arguments");
