@@ -1,5 +1,6 @@
 package org.example.Info;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Unit {
@@ -20,12 +21,29 @@ public class Unit {
     }
 
     private String name;
-    private List<AGES> allAges;
+    private ArrayList<AGES> allAges;
     private String unitBatiment;
-    private List<String> unitCost;
+    private ArrayList<String> unitCost;
     private String buildingTime;
     private String livingPoint;
 
 
+    public Unit() {
+        this.name = "Unknow";
+        this.allAges = new ArrayList<>();
+        this.unitBatiment = "None";
+        this.unitCost = new ArrayList<>();
+        this.buildingTime = "0";
+        this.livingPoint = "None";
+    }
 
+
+    public Unit(String name, ArrayList<AGES> allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, String livingPoint) {
+        this.name = name;
+        this.allAges = allAges;
+        this.unitBatiment = unitBatiment;
+        this.unitCost = unitCost;
+        this.buildingTime = buildingTime;
+        this.livingPoint = livingPoint;
+    }
 }
