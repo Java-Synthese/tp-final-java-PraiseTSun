@@ -29,6 +29,15 @@ public class Building {
     private ArrayList<String> civilisations;
 
 
-
-
+    public Building(String name, ArrayList<Integer> ages, String type, ArrayList<String> cost, String time, int hitPoint, int visibility, ArrayList<String> civilisations) {
+        this.name = name;
+        this.ages = ages;
+        this.type = type;
+        this.cost = cost;
+        this.time = time;
+        this.hitPoint = hitPoint;
+        this.visibility = visibility;
+        this.civilisations = civilisations;
+    }
 }
+
