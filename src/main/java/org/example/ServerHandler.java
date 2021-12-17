@@ -64,6 +64,17 @@ public class ServerHandler {
         } catch (IOException e) {}
         finally{ exchange.close(); }
     }
+    private String getAgesInfo(String type){
+        String info = "";
+
+        switch(type){
+            case "units":
+
+                break;
+        }
+
+        return info;
+    }
 
     private void exchangeTest(HttpExchange exchange){
         try {
