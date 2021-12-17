@@ -36,13 +36,45 @@ public class ServerHandler {
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 4);
 
         server.createContext("/test", exchange -> { exchangeTest(exchange);});
-        server.createContext("/ages", exchange -> { exchangeAge(exchange);});
+        server.createContext("/ages", exchange -> { exchangeAges(exchange);});
 
         server.start();
     }
 
-    private void exchangeAge(HttpExchange exchange){
+    private void exchangeAges(HttpExchange exchange){
+        String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
 
+        try{
+            if(elements.length == 1){
+                exchange.sendResponseHeaders(202,0);
+                writeBuffer("Retourne l’ensemble des informations sur les âges.",exchange);
+            }
+            else if(elements.length == 3){
+                if(elements[1].equals(":age")){
+                    if(elements[2].equals("units")){
+                        exchange.sendResponseHeaders(202, 0);
+                        writeBuffer("Retourne les informations sur les unités disponible pendant l’âge « :age »", exchange);
+                    }
+                    else if(elements[2].equals("buildings")){
+                        exchange.sendResponseHeaders(202, 0);
+                        writeBuffer("Retourne les informations sur les bâtiments disponible pendant l’âge « :age »", exchange);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(404, 0);
+                        writeBuffer(elements[2] + " isn't allow.", exchange);
+                    }
+                }
+                else{
+                    exchange.sendResponseHeaders(404, 0);
+                    writeBuffer(elements[1] + " isn't allow.", exchange);
+                }
+            }
+            else{
+                exchange.sendResponseHeaders(404, 0);
+                writeBuffer("Numbers of arguments do not match the acceted commands.", exchange);
+            }
+        } catch (IOException e) {}
+        finally{ exchange.close(); }
     }
 
     private void exchangeTest(HttpExchange exchange){
