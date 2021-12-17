@@ -48,14 +48,19 @@ public class ServerHandler {
     private void exchangeTest(HttpExchange exchange){
         try {
             exchange.sendResponseHeaders(200, 0);
-            BufferedWriter w = new BufferedWriter(new OutputStreamWriter(exchange.getResponseBody()));
-            w.write("Test");
-            w.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
+            writeBuffer("test\ntest", exchange);
+        } catch (IOException e) {}
+        finally {
             exchange.close();
         }
+    }
+
+    private void writeBuffer(String content, HttpExchange exchange){
+        try{
+            BufferedWriter w = new BufferedWriter(new OutputStreamWriter(exchange.getResponseBody()));
+            w.write(content);
+            w.flush();
+        } catch (IOException e) {}
     }
 
     private void argumentsHandler(String[] arguments){
