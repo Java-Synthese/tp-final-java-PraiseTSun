@@ -47,17 +47,17 @@ public class ServerHandler {
         try{
             if(elements.length == 1){
                 exchange.sendResponseHeaders(202,0);
-                writeBuffer("Retourne l’ensemble des informations sur les âges.",exchange);
+                writeBuffer(getAgesInfo("ages"),exchange);
             }
             else if(elements.length >= 3){
                 if(elements[1].equals(":age")){
                     if(elements[2].equals("units")){
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer("Retourne les informations sur les unités disponible pendant l’âge « :age »", exchange);
+                        writeBuffer(getAgesInfo("units"), exchange);
                     }
                     else if(elements[2].equals("buildings")){
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer("Retourne les informations sur les bâtiments disponible pendant l’âge « :age »", exchange);
+                        writeBuffer(getAgesInfo("buildings"), exchange);
                     } else unknowArgument(elements[2] + " isn't allow.", exchange);
                 } else unknowArgument(elements[1] + " isn't allow.", exchange);
             } else unknowArgument("Numbers of arguments do not match the acceted commands.", exchange);
@@ -65,15 +65,50 @@ public class ServerHandler {
         finally{ exchange.close(); }
     }
     private String getAgesInfo(String type){
+        return getAgesInfo(type, "");
+    }
+    private String getAgesInfo(String type, String target){
         String info = "";
 
         switch(type){
+            case "ages":
+                info += "                               Units                                  \n";
+                info += "----------------------------------------------------------------------\n";
+                info += getAgesInfo("units");
+                info += "\n\n";
+                info += "                             Buildings                                \n";
+                info += "----------------------------------------------------------------------\n";
+                info += getAgesInfo("buildings");
+                break;
             case "units":
-
+                    for(Unit unit : unitsList){
+                        info += unit.getName() + " : " + setAges(unit.getAllAges()) + "\n";
+                    }
+                break;
+            case "buildings":
+                for(Building building : buildingList){
+                    info += building.getName() + " : " + setAges(building.getAges()) + "\n";
+                }
                 break;
         }
 
         return info;
+    }
+
+    private String setAges(String[] ages){
+        String age = "";
+        for(int i = 0; i < ages.length; i++){
+            switch(ages[i]){
+                case "1": age += "Dark Age"; break;
+                case "2": age += "Feudal Age"; break;
+                case "3": age += "Castle Age"; break;
+                case "4": age += "Imperial Age"; break;
+            }
+
+            if(i != ages.length-1)
+                age += " | ";
+        }
+        return age;
     }
 
     private void exchangeTest(HttpExchange exchange){
