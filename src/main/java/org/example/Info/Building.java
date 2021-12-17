@@ -20,16 +20,16 @@ public class Building {
     }
 
     private String name;
-    private ArrayList<Integer> ages;
+    private int[] ages;
     private String type;
-    private ArrayList<String> cost;
+    private int[] cost;
     private String time;
     private int hitPoint;
     private int visibility;
     private ArrayList<String> civilisations;
 
 
-    public Building(String name, ArrayList<Integer> ages, String type, ArrayList<String> cost, String time, int hitPoint, int visibility, ArrayList<String> civilisations) {
+    public Building(String name, int[] ages, String type, int[] cost, String time, int hitPoint, int visibility, ArrayList<String> civilisations) {
         this.name = name;
         this.ages = ages;
         this.type = type;
@@ -48,11 +48,11 @@ public class Building {
         this.name = name;
     }
 
-    public ArrayList<Integer> getAges() {
+    public int[] getAges() {
         return ages;
     }
 
-    public void setAges(ArrayList<Integer> ages) {
+    public void setAges(int[] ages) {
         this.ages = ages;
     }
 
@@ -64,11 +64,11 @@ public class Building {
         this.type = type;
     }
 
-    public ArrayList<String> getCost() {
+    public int[] getCost() {
         return cost;
     }
 
-    public void setCost(ArrayList<String> cost) {
+    public void setCost(int[] cost) {
         this.cost = cost;
     }
 
