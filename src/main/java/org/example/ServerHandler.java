@@ -36,17 +36,23 @@ public class ServerHandler {
 
         for ( File file : listOfFiles) {
             if(acceptedFile(file))
-                System.out.println(file.getName());
+                collectData(file);
         }
     }
 
     private void collectData(File file){
         try(BufferedReader reader = Files.newBufferedReader(Paths.get(file.getPath()))){
             String line;
+            String fileName = file.getName();
+            String[] lineElements;
             while((line = reader.readLine()) != null){
-                switch (file.getName()){
+                lineElements = line.split("\t");
+                switch (fileName){
                     case "civs.tab":
-
+                        System.out.println(lineElements);
+                        break;
+                    case "buildings.tab":
+                        System.out.println(lineElements);
                         break;
                 }
             }

@@ -4,24 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Unit {
-    private enum AGES {
-        UNKNOW(0),
-        Dark_Age(1),
-        Feudal_Age(2),
-        Castle_Age(3),
-        Imperial_Age(4);
-
-        private final int value;
-
-        AGES(final int newValue){
-            value = newValue;
-        }
-
-        public int getvalue(){return value;}
-    }
-
     private String name;
-    private ArrayList<AGES> allAges;
+    private int[] allAges;
     private String unitBatiment;
     private ArrayList<String> unitCost;
     private String buildingTime;
@@ -29,7 +13,7 @@ public class Unit {
     private int visibility;
     private ArrayList<String> civilisations;
 
-    public Unit(String name, ArrayList<AGES> allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, int livingPoint, int visibility, ArrayList<String> civilisations) {
+    public Unit(String name, int[] allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, int livingPoint, int visibility, ArrayList<String> civilisations) {
         this.name = name;
         this.allAges = allAges;
         this.unitBatiment = unitBatiment;
@@ -48,11 +32,11 @@ public class Unit {
         this.name = name;
     }
 
-    public ArrayList<AGES> getAllAges() {
+    public int[] getAllAges() {
         return allAges;
     }
 
-    public void setAllAges(ArrayList<AGES> allAges) {
+    public void setAllAges(int[] allAges) {
         this.allAges = allAges;
     }
 
