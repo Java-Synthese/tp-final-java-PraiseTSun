@@ -36,8 +36,13 @@ public class ServerHandler {
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 4);
 
         server.createContext("/test", exchange -> { exchangeTest(exchange);});
+        server.createContext("/ages", exchange -> { exchangeAge(exchange);});
 
         server.start();
+    }
+
+    private void exchangeAge(HttpExchange exchange){
+
     }
 
     private void exchangeTest(HttpExchange exchange){
@@ -99,4 +104,5 @@ public class ServerHandler {
     private boolean acceptedFile(File file){
         return file.isFile() && FilenameUtils.getExtension(file.getName()).equals(EXT);
     }
+
 }
