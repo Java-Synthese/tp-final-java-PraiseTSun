@@ -19,7 +19,7 @@ public class Unit {
         this.unitBatiment = unitBatiment;
         this.unitCost = unitCost;
         this.buildingTime = buildingTime;
-        this.hitPoint = livingPoint;
+        this.hitPoint = hitPoint;
         this.visibility = visibility;
         this.civilisations = civilisations;
     }

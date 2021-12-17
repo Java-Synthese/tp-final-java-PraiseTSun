@@ -1,14 +1,16 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.io.FilenameUtils;
 import org.example.Info.Building;
 import org.example.Info.Civilisation;
@@ -24,9 +26,31 @@ public class ServerHandler {
     private List<Civilisation> civilisationList = new ArrayList<>();
     private List<Building> buildingList = new ArrayList<>();
 
-    public void initServer(String[] arguments){
+    public void setUpServer(String[] arguments){
         argumentsHandler(arguments);
         readFiles();
+        try {initServer();} catch (Exception e) {}
+    }
+
+    private void initServer() throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 4);
+
+        server.createContext("/test", exchange -> { exchangeTest(exchange);});
+
+        server.start();
+    }
+
+    private void exchangeTest(HttpExchange exchange){
+        try {
+            exchange.sendResponseHeaders(200, 0);
+            BufferedWriter w = new BufferedWriter(new OutputStreamWriter(exchange.getResponseBody()));
+            w.write("Test");
+            w.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            exchange.close();
+        }
     }
 
     private void argumentsHandler(String[] arguments){
@@ -74,9 +98,5 @@ public class ServerHandler {
 
     private boolean acceptedFile(File file){
         return file.isFile() && FilenameUtils.getExtension(file.getName()).equals(EXT);
-    }
-
-    private void readData(){
-
     }
 }
