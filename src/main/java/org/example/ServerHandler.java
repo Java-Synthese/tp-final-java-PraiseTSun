@@ -6,13 +6,23 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.io.FilenameUtils;
+import org.example.Info.Building;
+import org.example.Info.Civilisation;
+import org.example.Info.Unit;
 
 public class ServerHandler {
     private final String EXT = "tab";
 
     private int serverPort;
     private Path dataFolder;
+
+    private List<Unit> unitsList = new ArrayList<>();
+    private List<Civilisation> civilisationList = new ArrayList<>();
+    private List<Building> buildingList = new ArrayList<>();
 
     public void initServer(String[] arguments){
         argumentsHandler(arguments);
@@ -49,10 +59,13 @@ public class ServerHandler {
                 lineElements = line.split("\t");
                 switch (fileName){
                     case "civs.tab":
-                        System.out.println(lineElements);
+                        civilisationList.add(new Civilisation(lineElements[0], lineElements[1], lineElements[2], lineElements[3], lineElements[4]));
                         break;
                     case "buildings.tab":
-                        System.out.println(lineElements);
+                        buildingList.add(new Building(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
+                        break;
+                    case "units.tab":
+                        unitsList.add(new Unit(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
                         break;
                 }
             }

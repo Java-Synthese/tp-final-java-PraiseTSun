@@ -5,21 +5,21 @@ import java.util.List;
 
 public class Unit {
     private String name;
-    private int[] allAges;
+    private String[] allAges;
     private String unitBatiment;
-    private ArrayList<String> unitCost;
+    private String[] unitCost;
     private String buildingTime;
-    private int livingPoint;
+    private int hitPoint;
     private int visibility;
-    private ArrayList<String> civilisations;
+    private String[] civilisations;
 
-    public Unit(String name, int[] allAges, String unitBatiment, ArrayList<String> unitCost, String buildingTime, int livingPoint, int visibility, ArrayList<String> civilisations) {
+    public Unit(String name, String[] allAges, String unitBatiment, String[] unitCost, String buildingTime, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
         this.allAges = allAges;
         this.unitBatiment = unitBatiment;
         this.unitCost = unitCost;
         this.buildingTime = buildingTime;
-        this.livingPoint = livingPoint;
+        this.hitPoint = livingPoint;
         this.visibility = visibility;
         this.civilisations = civilisations;
     }
@@ -32,11 +32,11 @@ public class Unit {
         this.name = name;
     }
 
-    public int[] getAllAges() {
+    public String[] getAllAges() {
         return allAges;
     }
 
-    public void setAllAges(int[] allAges) {
+    public void setAllAges(String[] allAges) {
         this.allAges = allAges;
     }
 
@@ -48,11 +48,11 @@ public class Unit {
         this.unitBatiment = unitBatiment;
     }
 
-    public ArrayList<String> getUnitCost() {
+    public String[] getUnitCost() {
         return unitCost;
     }
 
-    public void setUnitCost(ArrayList<String> unitCost) {
+    public void setUnitCost(String[] unitCost) {
         this.unitCost = unitCost;
     }
 
@@ -65,11 +65,11 @@ public class Unit {
     }
 
     public int getLivingPoint() {
-        return livingPoint;
+        return hitPoint;
     }
 
     public void setLivingPoint(int livingPoint) {
-        this.livingPoint = livingPoint;
+        this.hitPoint = livingPoint;
     }
 
     public int getVisibility() {
@@ -80,11 +80,11 @@ public class Unit {
         this.visibility = visibility;
     }
 
-    public ArrayList<String> getCivilisations() {
+    public String[] getCivilisations() {
         return civilisations;
     }
 
-    public void setCivilisations(ArrayList<String> civilisations) {
+    public void setCivilisations(String[] civilisations) {
         this.civilisations = civilisations;
     }
 }
