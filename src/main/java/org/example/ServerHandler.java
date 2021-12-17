@@ -49,7 +49,7 @@ public class ServerHandler {
                 exchange.sendResponseHeaders(202,0);
                 writeBuffer("Retourne l’ensemble des informations sur les âges.",exchange);
             }
-            else if(elements.length == 3){
+            else if(elements.length >= 3){
                 if(elements[1].equals(":age")){
                     if(elements[2].equals("units")){
                         exchange.sendResponseHeaders(202, 0);
@@ -58,21 +58,9 @@ public class ServerHandler {
                     else if(elements[2].equals("buildings")){
                         exchange.sendResponseHeaders(202, 0);
                         writeBuffer("Retourne les informations sur les bâtiments disponible pendant l’âge « :age »", exchange);
-                    }
-                    else{
-                        exchange.sendResponseHeaders(404, 0);
-                        writeBuffer(elements[2] + " isn't allow.", exchange);
-                    }
-                }
-                else{
-                    exchange.sendResponseHeaders(404, 0);
-                    writeBuffer(elements[1] + " isn't allow.", exchange);
-                }
-            }
-            else{
-                exchange.sendResponseHeaders(404, 0);
-                writeBuffer("Numbers of arguments do not match the acceted commands.", exchange);
-            }
+                    } else unknowArgument(elements[2] + " isn't allow.", exchange);
+                } else unknowArgument(elements[1] + " isn't allow.", exchange);
+            } else unknowArgument("Numbers of arguments do not match the acceted commands.", exchange);
         } catch (IOException e) {}
         finally{ exchange.close(); }
     }
@@ -85,6 +73,11 @@ public class ServerHandler {
         finally {
             exchange.close();
         }
+    }
+
+    private void unknowArgument(String argument, HttpExchange exchange) throws IOException {
+        exchange.sendResponseHeaders(404, 0);
+        writeBuffer(argument + " isn't allow.", exchange);
     }
 
     private void writeBuffer(String content, HttpExchange exchange){
