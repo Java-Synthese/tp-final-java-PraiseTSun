@@ -56,8 +56,19 @@ public class ServerHandler {
         finally{ exchange.close(); }
     }
 
-    private void handleGetBuildings(String[] elements, HttpExchange exchange){
+    private void handleGetBuildings(String[] elements, HttpExchange exchange) throws  Exception{
+        if(elements.length == 1){
+            String info = "{\"buildinds\" : [";
 
+            for(Building build : buildingList){
+                info += ;
+            }
+
+            info += "]}";
+
+            exchange.sendResponseHeaders(200, 0);
+            writeBuffer(info,exchange);
+        }else exchange.sendResponseHeaders(404, -1);
     }
 
     private void exchangeAges(HttpExchange exchange){
@@ -171,7 +182,7 @@ public class ServerHandler {
     }
 
     private String getAges(String[] ages){
-        String age = "";
+        String age = "{\"";
         for(int i = 0; i < ages.length; i++){
             switch(ages[i]){
                 case "1": age += "Dark Age"; break;
@@ -181,8 +192,10 @@ public class ServerHandler {
             }
 
             if(i != ages.length-1)
-                age += " | ";
+                age += "\"},{\"";
         }
+
+        age += "\"}";
         return age;
     }
 
