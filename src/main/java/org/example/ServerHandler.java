@@ -49,11 +49,15 @@ public class ServerHandler {
         String method = exchange.getRequestMethod();
         try{
             if(method.equals("GET"))
-                handleGetAges(elements, exchange);
+                handleGetBuildings(elements, exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
         finally{ exchange.close(); }
+    }
+
+    private void handleGetBuildings(String[] elements, HttpExchange exchange){
+
     }
 
     private void exchangeAges(HttpExchange exchange){
