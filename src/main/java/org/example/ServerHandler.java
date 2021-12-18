@@ -16,6 +16,8 @@ import org.example.Info.Building;
 import org.example.Info.Civilisation;
 import org.example.Info.Unit;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class ServerHandler {
     enum TYPE{
         units,
@@ -52,42 +54,46 @@ public class ServerHandler {
         String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
 
         try{
-            if(elements.length == 1){
-                exchange.sendResponseHeaders(202,0);
-                writeBuffer(getAgesInfo(TYPE.ages),exchange);
-            }
-            else if(elements.length >= 3){
-                if(elements[1].equals(":age")){
-                    if(elements[2].equals(TYPE.units.toString())){
-                        if(elements.length >= 4){
-                            String[] target = elements[3].split("=");
-                            if(target.length == 2 && target[0].equals("civ")){
-                                exchange.sendResponseHeaders(202, 0);
-                                writeBuffer(getTargetAges(target[1], TYPE.units), exchange);
-                            } else exchange.sendResponseHeaders(404, 0);
-                        }
-                        else{
-                            exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getAgesInfo(TYPE.units), exchange);
-                        }
-                    }
-                    else if(elements[2].equals(TYPE.buildings.toString())){
-                        if(elements.length >= 4){
-                            String[] target = elements[3].split("=");
-                            if(target.length == 2 && target[0].equals("civ")){
-                                exchange.sendResponseHeaders(202, 0);
-                                writeBuffer(getTargetAges(target[1], TYPE.buildings), exchange);
-                            } else exchange.sendResponseHeaders(404, 0);
-                        }
-                        else{
-                            exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getAgesInfo(TYPE.buildings), exchange);
-                        }
-                    } else exchange.sendResponseHeaders(404, 0);
-                } else exchange.sendResponseHeaders(404, 0);;
-            } else exchange.sendResponseHeaders(404, 0);
-        } catch (IOException e) {}
+            handleGetAges(elements, exchange);
+        } catch (Exception e) {}
         finally{ exchange.close(); }
+    }
+
+    private void handleGetAges(String[] elements, HttpExchange exchange) throws Exception{
+        if(elements.length == 1){
+            exchange.sendResponseHeaders(202,0);
+            writeBuffer(getAgesInfo(TYPE.ages),exchange);
+        }
+        else if(elements.length >= 3){
+            if(elements[1].equals(":age")){
+                if(elements[2].equals(TYPE.units.toString())){
+                    if(elements.length >= 4){
+                        String[] target = elements[3].split("=");
+                        if(target.length == 2 && target[0].equals("civ")){
+                            exchange.sendResponseHeaders(202, 0);
+                            writeBuffer(getTargetAges(target[1], TYPE.units), exchange);
+                        } else exchange.sendResponseHeaders(404, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(202, 0);
+                        writeBuffer(getAgesInfo(TYPE.units), exchange);
+                    }
+                }
+                else if(elements[2].equals(TYPE.buildings.toString())){
+                    if(elements.length >= 4){
+                        String[] target = elements[3].split("=");
+                        if(target.length == 2 && target[0].equals("civ")){
+                            exchange.sendResponseHeaders(202, 0);
+                            writeBuffer(getTargetAges(target[1], TYPE.buildings), exchange);
+                        } else exchange.sendResponseHeaders(404, 0);
+                    }
+                    else{
+                        exchange.sendResponseHeaders(202, 0);
+                        writeBuffer(getAgesInfo(TYPE.buildings), exchange);
+                    }
+                } else exchange.sendResponseHeaders(404, 0);
+            } else exchange.sendResponseHeaders(404, 0);;
+        } else exchange.sendResponseHeaders(404, 0);
     }
 
     private String getAgesInfo(TYPE type){
