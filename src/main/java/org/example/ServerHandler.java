@@ -19,13 +19,6 @@ import org.example.Info.Unit;
 import javax.net.ssl.HttpsURLConnection;
 
 public class ServerHandler {
-    enum TYPE{
-        units,
-        buildings,
-        civs,
-        ages
-    }
-
     private final String EXT = "tab";
 
     private int serverPort;
@@ -52,9 +45,12 @@ public class ServerHandler {
 
     private void exchangeAges(HttpExchange exchange){
         String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
-
+        String method = exchange.getRequestMethod();
         try{
-            handleGetAges(elements, exchange);
+            if(method.equals("GET"))
+                handleGetAges(elements, exchange);
+            else
+                exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
         finally{ exchange.close(); }
     }
@@ -62,61 +58,61 @@ public class ServerHandler {
     private void handleGetAges(String[] elements, HttpExchange exchange) throws Exception{
         if(elements.length == 1){
             exchange.sendResponseHeaders(202,0);
-            writeBuffer(getAgesInfo(TYPE.ages),exchange);
+            writeBuffer(getAgesInfo("ages"),exchange);
         }
         else if(elements.length >= 3){
             if(elements[1].equals(":age")){
-                if(elements[2].equals(TYPE.units.toString())){
+                if(elements[2].equals("units")){
                     if(elements.length >= 4){
                         String[] target = elements[3].split("=");
                         if(target.length == 2 && target[0].equals("civ")){
                             exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getTargetAges(target[1], TYPE.units), exchange);
+                            writeBuffer(getTargetAges(target[1], "units"), exchange);
                         } else exchange.sendResponseHeaders(404, 0);
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer(getAgesInfo(TYPE.units), exchange);
+                        writeBuffer(getAgesInfo("units"), exchange);
                     }
                 }
-                else if(elements[2].equals(TYPE.buildings.toString())){
+                else if(elements[2].equals("buildings")){
                     if(elements.length >= 4){
                         String[] target = elements[3].split("=");
                         if(target.length == 2 && target[0].equals("civ")){
                             exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getTargetAges(target[1], TYPE.buildings), exchange);
+                            writeBuffer(getTargetAges(target[1], "buildings"), exchange);
                         } else exchange.sendResponseHeaders(404, 0);
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer(getAgesInfo(TYPE.buildings), exchange);
+                        writeBuffer(getAgesInfo("buildings"), exchange);
                     }
                 } else exchange.sendResponseHeaders(404, 0);
             } else exchange.sendResponseHeaders(404, 0);;
         } else exchange.sendResponseHeaders(404, 0);
     }
 
-    private String getAgesInfo(TYPE type){
+    private String getAgesInfo(String type){
         return getAgesInfo(type, "");
     }
 
-    private String getAgesInfo(TYPE type, String target){
+    private String getAgesInfo(String type, String target){
         String info = "";
 
         switch(type){
-            case ages:
-                info += getAgesInfo(TYPE.units);
+            case "ages":
+                info += getAgesInfo("units");
                 info += "\n\n";
-                info += getAgesInfo(TYPE.buildings);
+                info += getAgesInfo("buildings");
                 break;
-            case units:
+            case "units":
                 info += "                           Units at age                            \n";
                 info += "----------------------------------------------------------------------\n";
                 for(Unit unit : unitsList){
                     info += unit.getName() + " : " + getAges(unit.getAllAges()) + "\n";
                 }
                 break;
-            case buildings:
+            case "buildings":
                 info += "                         Buildings at age                          \n";
                 info += "----------------------------------------------------------------------\n";
                 for(Building building : buildingList){
@@ -128,11 +124,11 @@ public class ServerHandler {
         return info;
     }
 
-    private String getTargetAges(String target, TYPE type){
+    private String getTargetAges(String target, String type){
         String info = "";
         String title = "";
         switch(type){
-            case units:
+            case "units":
                 title = target + "'s units at age\n--------------------------------------------\n";
                 for (Unit unit : unitsList) {
                     for(String civ : unit.getCivilisations())
@@ -141,7 +137,7 @@ public class ServerHandler {
                         }
                 }
                 break;
-            case buildings:
+            case "buildings":
                 title = target + "'s buildings at age\n--------------------------------------------\n";
                 for (Building build : buildingList) {
                     for(String civ : build.getCivilisations())
