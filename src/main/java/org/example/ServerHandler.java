@@ -39,8 +39,21 @@ public class ServerHandler {
 
         server.createContext("/test", exchange -> { exchangeTest(exchange);});
         server.createContext("/ages", exchange -> { exchangeAges(exchange);});
+        server.createContext("/buildings", exchange -> { exchangeBuildings(exchange);});
 
         server.start();
+    }
+
+    private void exchangeBuildings(HttpExchange exchange){
+        String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
+        String method = exchange.getRequestMethod();
+        try{
+            if(method.equals("GET"))
+                handleGetAges(elements, exchange);
+            else
+                exchange.sendResponseHeaders(404,-1);
+        } catch (Exception e) {}
+        finally{ exchange.close(); }
     }
 
     private void exchangeAges(HttpExchange exchange){
