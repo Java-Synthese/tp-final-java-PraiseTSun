@@ -64,7 +64,7 @@ public class ServerHandler {
                             if(target.length == 2 && target[0].equals("civ")){
                                 exchange.sendResponseHeaders(202, 0);
                                 writeBuffer(getTargetAges(target[1], TYPE.units), exchange);
-                            } else unknowArgument("Numbers of arguments do not match the acceted commands.", exchange);
+                            } else exchange.sendResponseHeaders(404, 0);
                         }
                         else{
                             exchange.sendResponseHeaders(202, 0);
@@ -77,15 +77,15 @@ public class ServerHandler {
                             if(target.length == 2 && target[0].equals("civ")){
                                 exchange.sendResponseHeaders(202, 0);
                                 writeBuffer(getTargetAges(target[1], TYPE.buildings), exchange);
-                            } else unknowArgument("Numbers of arguments do not match the acceted commands.", exchange);
+                            } else exchange.sendResponseHeaders(404, 0);
                         }
                         else{
                             exchange.sendResponseHeaders(202, 0);
                             writeBuffer(getAgesInfo(TYPE.buildings), exchange);
                         }
-                    } else unknowArgument(elements[2] + " isn't allow.", exchange);
-                } else unknowArgument(elements[1] + " isn't allow.", exchange);
-            } else unknowArgument("Numbers of arguments do not match the acceted commands.", exchange);
+                    } else exchange.sendResponseHeaders(404, 0);
+                } else exchange.sendResponseHeaders(404, 0);;
+            } else exchange.sendResponseHeaders(404, 0);
         } catch (IOException e) {}
         finally{ exchange.close(); }
     }
@@ -175,11 +175,6 @@ public class ServerHandler {
         finally {
             exchange.close();
         }
-    }
-
-    private void unknowArgument(String argument, HttpExchange exchange) throws IOException {
-        exchange.sendResponseHeaders(404, 0);
-        writeBuffer(argument + " isn't allow.", exchange);
     }
 
     private void writeBuffer(String content, HttpExchange exchange){
