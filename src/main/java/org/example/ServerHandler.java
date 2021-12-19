@@ -6,7 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import com.sun.net.httpserver.HttpExchange;
@@ -24,9 +26,9 @@ public class ServerHandler {
     private int serverPort;
     private Path dataFolder;
 
-    private List<Unit> unitsList = new ArrayList<>();
-    private List<Civilisation> civilisationList = new ArrayList<>();
-    private List<Building> buildingList = new ArrayList<>();
+    private Map<String, Unit> unitsMap = new HashMap<>();
+    private Map<String, Civilisation> civilisationMap = new HashMap<>();
+    private Map<String, Building> buildingsMap = new HashMap<>();
 
     public void setUpServer(String[] arguments){
         argumentsHandler(arguments);
@@ -60,8 +62,8 @@ public class ServerHandler {
         if(elements.length == 1){
             String info = "{\"buildinds\" : [";
 
-            for(int i = 0; i < buildingList.size(); i++){
-                Building build = buildingList.get(i);
+            for(Map.Entry<String, Building> builds : buildingsMap.entrySet()){
+                Building build = builds.getValue();
                 info += "{" +
                         "\"name\":\"" + build.getName() + "\"," +
                         "\"ages\":[" + getAges(build.getAges()) + "]," +
@@ -71,18 +73,19 @@ public class ServerHandler {
                         "\"hit_point\":\"" + build.getHitPoint() + "\"," +
                         "\"visibility\":\"" + build.getVisibility() + "\"," +
                         "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
-                        "}"
+                        "},"
                 ;
-
-                if(i != buildingList.size() - 1)
-                    info += ",";
             }
-
+            info = removeLastCharacter(info);
             info += "]}";
 
             exchange.sendResponseHeaders(200, 0);
             writeBuffer(info,exchange);
         }else exchange.sendResponseHeaders(404, -1);
+    }
+
+    private String removeLastCharacter(String str){
+        return str.substring(0, str.length() - 1);
     }
 
     private void exchangeAges(HttpExchange exchange){
@@ -150,16 +153,12 @@ public class ServerHandler {
             case "units":
                 info += "                           Units at age                            \n";
                 info += "----------------------------------------------------------------------\n";
-                for(Unit unit : unitsList){
-                    info += unit.getName() + " : " + getAges(unit.getAllAges()) + "\n";
-                }
+
                 break;
             case "buildings":
                 info += "                         Buildings at age                          \n";
                 info += "----------------------------------------------------------------------\n";
-                for(Building building : buildingList){
-                    info += building.getName() + " : " + getAges(building.getAges()) + "\n";
-                }
+
                 break;
         }
 
@@ -172,21 +171,11 @@ public class ServerHandler {
         switch(type){
             case "units":
                 title = target + "'s units at age\n--------------------------------------------\n";
-                for (Unit unit : unitsList) {
-                    for(String civ : unit.getCivilisations())
-                        if(civ.equals(target)){
-                            info += unit.getName() + " : " + getAges(unit.getAllAges()) + "\n";
-                        }
-                }
+
                 break;
             case "buildings":
                 title = target + "'s buildings at age\n--------------------------------------------\n";
-                for (Building build : buildingList) {
-                    for(String civ : build.getCivilisations())
-                        if(civ.equals(target)){
-                            info += build.getName() + " : " + getAges(build.getAges()) + "\n";
-                        }
-                }
+
                 break;
         }
         if( info == "")
@@ -261,13 +250,13 @@ public class ServerHandler {
                 lineElements = line.split("\t");
                 switch (fileName){
                     case "civs.tab":
-                        civilisationList.add(new Civilisation(lineElements[0], lineElements[1], lineElements[2], lineElements[3], lineElements[4]));
+                        civilisationMap.put(lineElements[0], new Civilisation(lineElements[0], lineElements[1], lineElements[2], lineElements[3], lineElements[4]));
                         break;
                     case "buildings.tab":
-                        buildingList.add(new Building(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
+                        buildingsMap.put(lineElements[0], new Building(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
                         break;
                     case "units.tab":
-                        unitsList.add(new Unit(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
+                        unitsMap.put(lineElements[0], new Unit(lineElements[0], lineElements[1].split(" "), lineElements[2], lineElements[3].split(" "), lineElements[4], Integer.parseInt(lineElements[5]), Integer.parseInt(lineElements[6]), lineElements[7].split(" ")));
                         break;
                 }
             }
