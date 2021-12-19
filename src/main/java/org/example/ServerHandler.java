@@ -67,9 +67,7 @@ public class ServerHandler {
 
     private void handlePostUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        String unitJson = readArgument(exchange);
-        ObjectMapper mapper = new ObjectMapper();
-        Unit unit = mapper.readValue(TEST_UNITS, Unit.class);
+        Unit unit = readArgumentUnit(exchange);
 
         if(!unitsMap.containsKey(unit.getName())){
             unitsMap.put(unit.getName(), unit);
@@ -86,9 +84,11 @@ public class ServerHandler {
 
     private void handleDeleteUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-
-        exchange.sendResponseHeaders(200,0);
-        writeBuffer("Unit Delete", exchange);
+        Unit unit = readArgumentUnit(exchange);
+        if(unitsMap.containsKey(unit.getName())){
+            unitsMap.remove(unit.getName());
+            exchange.sendResponseHeaders(201, -1);
+        }else exchange.sendResponseHeaders(404, -1);
     }
 
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
@@ -114,9 +114,11 @@ public class ServerHandler {
         }else exchange.sendResponseHeaders(404, -1);
     }
 
-    private String readArgument (HttpExchange exchange) throws  Exception{
+    private Unit readArgumentUnit (HttpExchange exchange) throws  Exception{
         BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
-        return reader.readLine().trim();
+        String unitJson = reader.readLine().trim();
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.readValue(unitJson, Unit.class);
     }
 
     private void exchangeCivilisations(HttpExchange exchange){
