@@ -98,10 +98,6 @@ public class Building {
         this.civilisations = civilisations;
     }
 
-    public String getAgesJson(){
-        return "{\"" + name + "\":[\"" + String.join("\",\"", ages) + "\"]}";
-    }
-
     private String[] getAgesString(String[] ages){
         String[] age = new String[ages.length];
         for(int i = 0; i < ages.length; i++){

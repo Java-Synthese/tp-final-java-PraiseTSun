@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -61,11 +62,11 @@ public class ServerHandler {
         finally{ exchange.close(); }
     }
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
         if(elements.length == 1){
             String info = "{\"Units\" : [";
-            ObjectMapper mapper = new ObjectMapper();
-            for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
-                info +=  mapper.writeValueAsString(civs.getValue()) + ",";
+            for(Map.Entry<String, Unit> unit : unitsMap.entrySet()){
+                info +=  mapper.writeValueAsString(unit.getValue()) + ",";
             }
             info = removeLastCharacter(info);
             info += "]}";
@@ -76,17 +77,11 @@ public class ServerHandler {
         else if(elements.length ==2){
             String[] target = elements[1].split("=");
 
-            if(elements[0].equals(":unit_name") && unitsMap.containsKey(target[1])){
+            if(target.length == 2 && target[0].equals(":unit_name") && unitsMap.containsKey(target[1])){
                 exchange.sendResponseHeaders(200, 0);
-                writeBuffer(getUnit(unitsMap.get(target[1])),exchange);
+                writeBuffer(mapper.writeValueAsString(unitsMap.get(target[1])),exchange);
             }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
-    }
-
-    private String getUnit(Unit unit){
-        return"{" +
-
-                "}";
     }
 
     private void exchangeCivilisations(HttpExchange exchange){

@@ -88,10 +88,6 @@ public class Unit {
         this.civilisations = civilisations;
     }
 
-    public String getAgesJson(){
-        return "{\"" + name + "\":[\"" + String.join("\",\"", allAges) + "\"]}";
-    }
-
     private String[] getAgesString(String[] ages){
         String[] age = new String[ages.length];
         for(int i = 0; i < ages.length; i++){
