@@ -243,24 +243,6 @@ public class ServerHandler {
         return title + info;
     }
 
-    private String getAges(String[] ages){
-        String age = "\"";
-        for(int i = 0; i < ages.length; i++){
-            switch(ages[i]){
-                case "1": age += "Dark Age"; break;
-                case "2": age += "Feudal Age"; break;
-                case "3": age += "Castle Age"; break;
-                case "4": age += "Imperial Age"; break;
-            }
-
-            if(i != ages.length-1)
-                age += "\",\"";
-        }
-
-        age += "\"";
-        return age;
-    }
-
     private void exchangeTest(HttpExchange exchange){
         try {
             exchange.sendResponseHeaders(200, 0);

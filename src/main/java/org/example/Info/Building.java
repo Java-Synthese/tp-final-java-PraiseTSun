@@ -3,22 +3,6 @@ package org.example.Info;
 import java.util.ArrayList;
 
 public class Building {
-    private enum AGES {
-        UNKNOW(0),
-        Dark_Age(1),
-        Feudal_Age(2),
-        Castle_Age(3),
-        Imperial_Age(4);
-
-        private final int value;
-
-        AGES(final int newValue){
-            value = newValue;
-        }
-
-        public int getvalue(){return value;}
-    }
-
     private String name;
     private String[] ages;
     private String type;
@@ -28,10 +12,20 @@ public class Building {
     private int visibility;
     private String[] civilisations;
 
+    public Building() {
+        this.name = null;
+        this.ages = null;
+        this.type = null;
+        this.cost = null;
+        this.time = null;
+        this.hitPoint = 0;
+        this.visibility = 0;
+        this.civilisations = null;
+    }
 
     public Building(String name, String[] ages, String type, String[] cost, String time, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
-        this.ages = ages;
+        this.ages = getAges(ages);
         this.type = type;
         this.cost = cost;
         this.time = time;
@@ -102,6 +96,20 @@ public class Building {
 
     public void setCivilisations(String[] civilisations) {
         this.civilisations = civilisations;
+    }
+
+    private String[] getAges(String[] ages){
+        String[] age = new String[ages.length];
+        for(int i = 0; i < ages.length; i++){
+            switch(ages[i]){
+                case "1": age[i] = "Dark Age"; break;
+                case "2": age[i] = "Feudal Age"; break;
+                case "3": age[i] = "Castle Age"; break;
+                case "4": age[i] = "Imperial Age"; break;
+                default: age[i] = "unknow"; break;
+            }
+        }
+        return age;
     }
 }
 
