@@ -59,6 +59,28 @@ public class ServerHandler {
         } catch (Exception e) {}
         finally{ exchange.close(); }
     }
+    private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
+        if(elements.length == 1){
+            String info = "{\"civilisations\" : [";
+
+            for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
+                Civilisation civ = civs.getValue();
+                info += "{" +
+                        "\"name\":\"" + civ.getName() + "\"," +
+                        "\"speciality\":\"" + civ.getSpeciality() + "\"," +
+                        "\"bonus\":\"" + civ.getBonus() + "\"," +
+                        "\"uniqueUnity\":\"" + civ.getUniqueUnity() + "\"," +
+                        "\"uniqueTechnology\":\"" + civ.getUniqueTechnology() + "\"" +
+                        "},"
+                ;
+            }
+            info = removeLastCharacter(info);
+            info += "]}";
+
+            exchange.sendResponseHeaders(200, 0);
+            writeBuffer(info,exchange);
+        }else exchange.sendResponseHeaders(404, -1);
+    }
 
     private void exchangeCivilisations(HttpExchange exchange){
         String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
@@ -94,7 +116,6 @@ public class ServerHandler {
             writeBuffer(info,exchange);
         }else exchange.sendResponseHeaders(404, -1);
     }
-
 
     private void exchangeBuildings(HttpExchange exchange){
         String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
