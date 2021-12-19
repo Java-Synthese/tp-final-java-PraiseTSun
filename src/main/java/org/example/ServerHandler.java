@@ -58,6 +58,8 @@ public class ServerHandler {
                 handlePostUnits(exchange);
             else if(method.equals("PUT"))
                 handlePutUnits(exchange);
+            else if(method.equals("DELETE"))
+                handleDeleteUnits(exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
@@ -76,6 +78,12 @@ public class ServerHandler {
         exchange.sendResponseHeaders(200,0);
         writeBuffer("Unit PUT", exchange);
 
+    }
+
+    private void handleDeleteUnits(HttpExchange exchange) throws Exception{
+        // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
+        exchange.sendResponseHeaders(200,0);
+        writeBuffer("Unit Delete", exchange);
     }
 
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
