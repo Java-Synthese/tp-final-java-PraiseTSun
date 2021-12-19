@@ -204,7 +204,7 @@ public class ServerHandler {
         return info;
     }
     private String getAgesUnit(Unit unit){
-        return "{\"" + unit.getName() + "\":[\"" + String.join("\",\"", unit.getAllAges() + "\"]}");
+        return "{\"" + unit.getName() + "\":[\"" + String.join("\",\"", unit.getAllAges()) + "\"]}";
     }
     private String getAgesBuildings(){
         String info = "";
@@ -215,7 +215,7 @@ public class ServerHandler {
         return info;
     }
     private String getAgesBuilding(Building build){
-        return "{\"" + build.getName() + "\":[\"" + String.join("\",\"", build.getAges() + "\"]}");
+        return "{\"" + build.getName() + "\":[\"" + String.join("\",\"", build.getAges()) + "\"]}";
     }
 
     private void exchangeTest(HttpExchange exchange){
