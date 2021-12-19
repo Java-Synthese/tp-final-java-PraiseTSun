@@ -53,7 +53,7 @@ public class ServerHandler {
         String method = exchange.getRequestMethod();
         try{
             if(method.equals("GET"))
-                handleGetCivilisations(elements, exchange);
+                handleGetUnits(elements, exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
@@ -79,7 +79,21 @@ public class ServerHandler {
 
             exchange.sendResponseHeaders(200, 0);
             writeBuffer(info,exchange);
+        }
+        else if(elements.length ==2){
+            String[] target = elements[1].split("=");
+
+            if(elements[0].equals(":unit_name") && unitsMap.containsKey(target[1])){
+                exchange.sendResponseHeaders(200, 0);
+                writeBuffer(getUnit(unitsMap.get(target[1])),exchange);
+            }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
+    }
+
+    private String getUnit(Unit unit){
+        return"{" +
+
+                "}";
     }
 
     private void exchangeCivilisations(HttpExchange exchange){
