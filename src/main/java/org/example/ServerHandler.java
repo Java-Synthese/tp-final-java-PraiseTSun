@@ -52,7 +52,7 @@ public class ServerHandler {
         String method = exchange.getRequestMethod();
         try{
             if(method.equals("GET"))
-                handleGetBuildings(elements, exchange);
+                handleGetCivilisations(elements, exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
@@ -61,19 +61,16 @@ public class ServerHandler {
 
     private void handleGetCivilisations(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
-            String info = "{\"buildinds\" : [";
+            String info = "{\"civilisations\" : [";
 
-            for(Map.Entry<String, Building> builds : buildingsMap.entrySet()){
-                Building build = builds.getValue();
+            for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
+                Civilisation civ = civs.getValue();
                 info += "{" +
-                        "\"name\":\"" + build.getName() + "\"," +
-                        "\"ages\":[" + getAges(build.getAges()) + "]," +
-                        "\"type\":\"" + build.getType() + "\"," +
-                        "\"cost\":[\"" + String.join("\",\"",build.getCost()) + "\"]," +
-                        "\"time\":\"" + build.getTime() + "\"," +
-                        "\"hit_point\":\"" + build.getHitPoint() + "\"," +
-                        "\"visibility\":\"" + build.getVisibility() + "\"," +
-                        "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
+                        "\"name\":\"" + civ.getName() + "\"," +
+                        "\"speciality\":\"" + civ.getSpeciality() + "\"," +
+                        "\"bonus\":\"" + civ.getBonus() + "\"," +
+                        "\"uniqueUnity\":\"" + civ.getUniqueUnity() + "\"," +
+                        "\"uniqueTechnology\":\"" + civ.getUniqueTechnology() + "\"" +
                         "},"
                 ;
             }
@@ -110,7 +107,7 @@ public class ServerHandler {
                         "\"type\":\"" + build.getType() + "\"," +
                         "\"cost\":[\"" + String.join("\",\"",build.getCost()) + "\"]," +
                         "\"time\":\"" + build.getTime() + "\"," +
-                        "\"hit_point\":\"" + build.getHitPoint() + "\"," +
+                        "\"hitPoint\":\"" + build.getHitPoint() + "\"," +
                         "\"visibility\":\"" + build.getVisibility() + "\"," +
                         "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
                         "},"
