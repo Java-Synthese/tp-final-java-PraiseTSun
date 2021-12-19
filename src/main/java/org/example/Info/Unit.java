@@ -37,7 +37,7 @@ public class Unit {
     }
 
     public void setAllAges(String[] allAges) {
-        this.allAges = allAges;
+        this.allAges = getAgesString(allAges);
     }
 
     public String getUnitBatiment() {

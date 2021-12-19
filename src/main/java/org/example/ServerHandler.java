@@ -5,13 +5,11 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -56,11 +54,21 @@ public class ServerHandler {
         try{
             if(method.equals("GET"))
                 handleGetUnits(elements, exchange);
+            else if(method.equals("POST"))
+                handlePostUnits(exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
         finally{ exchange.close(); }
     }
+
+    private void handlePostUnits(HttpExchange exchange) throws Exception{
+        // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
+        exchange.sendResponseHeaders(200,0);
+        writeBuffer("Unit POST", exchange);
+
+    }
+
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
         ObjectMapper mapper = new ObjectMapper();
         if(elements.length == 1){
@@ -203,9 +211,11 @@ public class ServerHandler {
         info = removeLastCharacter(info);
         return info;
     }
+
     private String getAgesUnit(Unit unit){
         return "{\"" + unit.getName() + "\":[\"" + String.join("\",\"", unit.getAllAges()) + "\"]}";
     }
+
     private String getAgesBuildings(){
         String info = "";
         for(Map.Entry<String, Building> build : buildingsMap.entrySet()){
@@ -214,6 +224,7 @@ public class ServerHandler {
         info = removeLastCharacter(info);
         return info;
     }
+
     private String getAgesBuilding(Building build){
         return "{\"" + build.getName() + "\":[\"" + String.join("\",\"", build.getAges()) + "\"]}";
     }
