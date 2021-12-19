@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.io.FilenameUtils;
@@ -61,18 +62,10 @@ public class ServerHandler {
     }
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
-            String info = "{\"civilisations\" : [";
-
+            String info = "{\"Units\" : [";
+            ObjectMapper mapper = new ObjectMapper();
             for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
-                Civilisation civ = civs.getValue();
-                info += "{" +
-                        "\"name\":\"" + civ.getName() + "\"," +
-                        "\"speciality\":\"" + civ.getSpeciality() + "\"," +
-                        "\"bonus\":\"" + civ.getBonus() + "\"," +
-                        "\"uniqueUnity\":\"" + civ.getUniqueUnity() + "\"," +
-                        "\"uniqueTechnology\":\"" + civ.getUniqueTechnology() + "\"" +
-                        "},"
-                ;
+                info +=  mapper.writeValueAsString(civs.getValue()) + ",";
             }
             info = removeLastCharacter(info);
             info += "]}";
@@ -111,17 +104,9 @@ public class ServerHandler {
     private void handleGetCivilisations(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
             String info = "{\"civilisations\" : [";
-
+            ObjectMapper mapper = new ObjectMapper();
             for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
-                Civilisation civ = civs.getValue();
-                info += "{" +
-                        "\"name\":\"" + civ.getName() + "\"," +
-                        "\"speciality\":\"" + civ.getSpeciality() + "\"," +
-                        "\"bonus\":\"" + civ.getBonus() + "\"," +
-                        "\"uniqueUnity\":\"" + civ.getUniqueUnity() + "\"," +
-                        "\"uniqueTechnology\":\"" + civ.getUniqueTechnology() + "\"" +
-                        "},"
-                ;
+                info += mapper.writeValueAsString(civs.getValue()) + ",";
             }
             info = removeLastCharacter(info);
             info += "]}";
@@ -146,20 +131,9 @@ public class ServerHandler {
     private void handleGetBuildings(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
             String info = "{\"buildinds\" : [";
-
+            ObjectMapper mapper = new ObjectMapper();
             for(Map.Entry<String, Building> builds : buildingsMap.entrySet()){
-                Building build = builds.getValue();
-                info += "{" +
-                        "\"name\":\"" + build.getName() + "\"," +
-                        "\"ages\":[" + getAges(build.getAges()) + "]," +
-                        "\"type\":\"" + build.getType() + "\"," +
-                        "\"cost\":[\"" + String.join("\",\"",build.getCost()) + "\"]," +
-                        "\"time\":\"" + build.getTime() + "\"," +
-                        "\"hitPoint\":\"" + build.getHitPoint() + "\"," +
-                        "\"visibility\":\"" + build.getVisibility() + "\"," +
-                        "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
-                        "},"
-                ;
+                info += mapper.writeValueAsString(builds.getValue()) + ",";
             }
             info = removeLastCharacter(info);
             info += "]}";
