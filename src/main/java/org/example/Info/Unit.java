@@ -13,6 +13,17 @@ public class Unit {
     private int visibility;
     private String[] civilisations;
 
+    public Unit() {
+        this.name = null;
+        this.allAges = null;
+        this.unitBatiment = null;
+        this.unitCost = null;
+        this.buildingTime = null;
+        this.hitPoint = 0;
+        this.visibility = 0;
+        this.civilisations = null;
+    }
+
     public Unit(String name, String[] allAges, String unitBatiment, String[] unitCost, String buildingTime, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
         this.allAges = getAgesString(allAges);

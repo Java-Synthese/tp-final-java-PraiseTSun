@@ -67,13 +67,14 @@ public class ServerHandler {
 
     private void handlePostUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
+        String unitJson = readArgument(exchange);
         ObjectMapper mapper = new ObjectMapper();
         Unit unit = mapper.readValue(TEST_UNITS, Unit.class);
 
         if(!unitsMap.containsKey(unit.getName())){
-            exchange.sendResponseHeaders(200,0);
-            writeBuffer("Unit POST", exchange);
-        }else exchange.sendResponseHeaders(404,0);
+            unitsMap.put(unit.getName(), unit);
+            exchange.sendResponseHeaders(201,0);
+        }else exchange.sendResponseHeaders(203,0);
     }
 
     private void handlePutUnits(HttpExchange exchange) throws Exception{
@@ -111,6 +112,11 @@ public class ServerHandler {
                 writeBuffer(mapper.writeValueAsString(unitsMap.get(target[1])),exchange);
             }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
+    }
+
+    private String readArgument (HttpExchange exchange) throws  Exception{
+        BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()));
+        return reader.readLine().trim();
     }
 
     private void exchangeCivilisations(HttpExchange exchange){
