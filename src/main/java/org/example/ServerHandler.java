@@ -60,8 +60,22 @@ public class ServerHandler {
         if(elements.length == 1){
             String info = "{\"buildinds\" : [";
 
-            for(Building build : buildingList){
-                info += ;
+            for(int i = 0; i < buildingList.size(); i++){
+                Building build = buildingList.get(i);
+                info += "{" +
+                        "\"name\":\"" + build.getName() + "\"," +
+                        "\"ages\":[" + getAges(build.getAges()) + "]," +
+                        "\"type\":\"" + build.getType() + "\"," +
+                        "\"cost\":[\"" + String.join("\",\"",build.getCost()) + "\"]," +
+                        "\"time\":\"" + build.getTime() + "\"," +
+                        "\"hit_point\":\"" + build.getHitPoint() + "\"," +
+                        "\"visibility\":\"" + build.getVisibility() + "\"," +
+                        "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
+                        "}"
+                ;
+
+                if(i != buildingList.size() - 1)
+                    info += ",";
             }
 
             info += "]}";
@@ -182,7 +196,7 @@ public class ServerHandler {
     }
 
     private String getAges(String[] ages){
-        String age = "{\"";
+        String age = "\"";
         for(int i = 0; i < ages.length; i++){
             switch(ages[i]){
                 case "1": age += "Dark Age"; break;
@@ -192,10 +206,10 @@ public class ServerHandler {
             }
 
             if(i != ages.length-1)
-                age += "\"},{\"";
+                age += "\",\"";
         }
 
-        age += "\"}";
+        age += "\"";
         return age;
     }
 
