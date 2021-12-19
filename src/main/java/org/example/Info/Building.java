@@ -25,7 +25,7 @@ public class Building {
 
     public Building(String name, String[] ages, String type, String[] cost, String time, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
-        this.ages = getAges(ages);
+        this.ages = getAgesString(ages);
         this.type = type;
         this.cost = cost;
         this.time = time;
@@ -98,7 +98,11 @@ public class Building {
         this.civilisations = civilisations;
     }
 
-    private String[] getAges(String[] ages){
+    public String getAgesJson(){
+        return "{\"" + name + "\":[\"" + String.join("\",\"", ages) + "\"]}";
+    }
+
+    private String[] getAgesString(String[] ages){
         String[] age = new String[ages.length];
         for(int i = 0; i < ages.length; i++){
             switch(ages[i]){

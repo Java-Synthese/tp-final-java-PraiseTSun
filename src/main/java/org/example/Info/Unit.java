@@ -15,7 +15,7 @@ public class Unit {
 
     public Unit(String name, String[] allAges, String unitBatiment, String[] unitCost, String buildingTime, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
-        this.allAges = allAges;
+        this.allAges = getAgesString(allAges);
         this.unitBatiment = unitBatiment;
         this.unitCost = unitCost;
         this.buildingTime = buildingTime;
@@ -86,5 +86,23 @@ public class Unit {
 
     public void setCivilisations(String[] civilisations) {
         this.civilisations = civilisations;
+    }
+
+    public String getAgesJson(){
+        return "{\"" + name + "\":[\"" + String.join("\",\"", allAges) + "\"]}";
+    }
+
+    private String[] getAgesString(String[] ages){
+        String[] age = new String[ages.length];
+        for(int i = 0; i < ages.length; i++){
+            switch(ages[i]){
+                case "1": age[i] = "Dark Age"; break;
+                case "2": age[i] = "Feudal Age"; break;
+                case "3": age[i] = "Castle Age"; break;
+                case "4": age[i] = "Imperial Age"; break;
+                default: age[i] = "unknow"; break;
+            }
+        }
+        return age;
     }
 }
