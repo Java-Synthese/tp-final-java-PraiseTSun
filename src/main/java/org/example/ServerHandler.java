@@ -18,9 +18,8 @@ import org.example.Info.Building;
 import org.example.Info.Civilisation;
 import org.example.Info.Unit;
 
-import javax.net.ssl.HttpsURLConnection;
-
 public class ServerHandler {
+    private final String TEST_UNITS = "{\"name\":\"Test\",\"allAges\":[\"1\"],\"unitBatiment\":\"Stable\",\"unitCost\":[\"75G\",\"60F\"],\"buildingTime\":\"0:30\",\"visibility\":4,\"civilisations\":[\"Chinese\",\"Franks\",\"Japanese\",\"Mongols\",\"Persians\"],\"livingPoint\":120}";
     private final String EXT = "tab";
 
     private int serverPort;
@@ -68,9 +67,13 @@ public class ServerHandler {
 
     private void handlePostUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        exchange.sendResponseHeaders(200,0);
-        writeBuffer("Unit POST", exchange);
+        ObjectMapper mapper = new ObjectMapper();
+        Unit unit = mapper.readValue(TEST_UNITS, Unit.class);
 
+        if(!unitsMap.containsKey(unit.getName())){
+            exchange.sendResponseHeaders(200,0);
+            writeBuffer("Unit POST", exchange);
+        }else exchange.sendResponseHeaders(404,0);
     }
 
     private void handlePutUnits(HttpExchange exchange) throws Exception{
@@ -82,6 +85,7 @@ public class ServerHandler {
 
     private void handleDeleteUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
+
         exchange.sendResponseHeaders(200,0);
         writeBuffer("Unit Delete", exchange);
     }
