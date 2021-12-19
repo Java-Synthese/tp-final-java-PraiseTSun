@@ -59,6 +59,33 @@ public class ServerHandler {
         finally{ exchange.close(); }
     }
 
+    private void handleGetCivilisations(String[] elements, HttpExchange exchange) throws  Exception{
+        if(elements.length == 1){
+            String info = "{\"buildinds\" : [";
+
+            for(Map.Entry<String, Building> builds : buildingsMap.entrySet()){
+                Building build = builds.getValue();
+                info += "{" +
+                        "\"name\":\"" + build.getName() + "\"," +
+                        "\"ages\":[" + getAges(build.getAges()) + "]," +
+                        "\"type\":\"" + build.getType() + "\"," +
+                        "\"cost\":[\"" + String.join("\",\"",build.getCost()) + "\"]," +
+                        "\"time\":\"" + build.getTime() + "\"," +
+                        "\"hit_point\":\"" + build.getHitPoint() + "\"," +
+                        "\"visibility\":\"" + build.getVisibility() + "\"," +
+                        "\"civilisation\":[\"" + String.join("\",\"",build.getCivilisations()) + "\"]" +
+                        "},"
+                ;
+            }
+            info = removeLastCharacter(info);
+            info += "]}";
+
+            exchange.sendResponseHeaders(200, 0);
+            writeBuffer(info,exchange);
+        }else exchange.sendResponseHeaders(404, -1);
+    }
+
+
     private void exchangeBuildings(HttpExchange exchange){
         String[] elements = exchange.getRequestURI().getPath().substring(1).split("/");
         String method = exchange.getRequestMethod();
