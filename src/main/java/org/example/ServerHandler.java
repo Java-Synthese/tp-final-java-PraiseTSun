@@ -155,9 +155,11 @@ public class ServerHandler {
     }
 
     private void handleGetAges(String[] elements, HttpExchange exchange) throws Exception{
+        String info = "";
         if(elements.length == 1){
             exchange.sendResponseHeaders(202,0);
-            writeBuffer(getAgesInfo("ages"),exchange);
+            info += "{ \"ages\": [{\"units\":[" + getAgesUnits() + "]},{\"buildings\":[" + getAgesBuildings() + "]}]}";
+            writeBuffer(info,exchange);
         }
         else if(elements.length >= 3){
             if(elements[1].equals(":age")){
@@ -166,12 +168,13 @@ public class ServerHandler {
                         String[] target = elements[3].split("=");
                         if(target.length == 2 && target[0].equals("civ")){
                             exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getTargetAges(target[1], "units"), exchange);
+                            writeBuffer(info, exchange);
                         } else exchange.sendResponseHeaders(404, 0);
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer(getAgesInfo("units"), exchange);
+                        info += "{\"units\":[" + getAgesUnits() + "]}";
+                        writeBuffer(info, exchange);
                     }
                 }
                 else if(elements[2].equals("buildings")){
@@ -179,63 +182,40 @@ public class ServerHandler {
                         String[] target = elements[3].split("=");
                         if(target.length == 2 && target[0].equals("civ")){
                             exchange.sendResponseHeaders(202, 0);
-                            writeBuffer(getTargetAges(target[1], "buildings"), exchange);
+                            writeBuffer(info, exchange);
                         } else exchange.sendResponseHeaders(404, 0);
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        writeBuffer(getAgesInfo("buildings"), exchange);
+                        info += "{\"buildings\":[" + getAgesBuildings() + "]}";
+                        writeBuffer(info, exchange);
                     }
                 } else exchange.sendResponseHeaders(404, 0);
             } else exchange.sendResponseHeaders(404, 0);;
         } else exchange.sendResponseHeaders(404, 0);
     }
 
-    private String getAgesInfo(String type){
-        return getAgesInfo(type, "");
-    }
-
-    private String getAgesInfo(String type, String target){
+    private String getAgesUnits(){
         String info = "";
-
-        switch(type){
-            case "ages":
-                info += getAgesInfo("units");
-                info += "\n\n";
-                info += getAgesInfo("buildings");
-                break;
-            case "units":
-                info += "                           Units at age                            \n";
-                info += "----------------------------------------------------------------------\n";
-
-                break;
-            case "buildings":
-                info += "                         Buildings at age                          \n";
-                info += "----------------------------------------------------------------------\n";
-
-                break;
+        for(Map.Entry<String, Unit> unit : unitsMap.entrySet()){
+            info += getAgesUnit(unit.getValue()) + ",";
         }
-
+        info = removeLastCharacter(info);
         return info;
     }
-
-    private String getTargetAges(String target, String type){
+    private String getAgesUnit(Unit unit){
+        return "{\"" + unit.getName() + "\":[\"" + String.join("\",\"", unit.getAllAges() + "\"]}");
+    }
+    private String getAgesBuildings(){
         String info = "";
-        String title = "";
-        switch(type){
-            case "units":
-                title = target + "'s units at age\n--------------------------------------------\n";
-
-                break;
-            case "buildings":
-                title = target + "'s buildings at age\n--------------------------------------------\n";
-
-                break;
+        for(Map.Entry<String, Building> build : buildingsMap.entrySet()){
+            info += getAgesBuilding(build.getValue()) + ",";
         }
-        if( info == "")
-            info = target + " do not exist.";
-
-        return title + info;
+        info = removeLastCharacter(info);
+        return info;
+    }
+    private String getAgesBuilding(Building build){
+        return "{\"" + build.getName() + "\":[\"" + String.join("\",\"", build.getAges() + "\"]}");
     }
 
     private void exchangeTest(HttpExchange exchange){
