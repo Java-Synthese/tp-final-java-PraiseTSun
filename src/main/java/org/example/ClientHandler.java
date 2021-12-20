@@ -14,13 +14,15 @@ public class ClientHandler {
 
     public void setUpServer(String[] args){
         argumentsHandler(args);
-        try {
-            System.out.println(getBuildings());
-        } catch (Exception e) {}
+        try { System.out.println(getCivs()); } catch (Exception e) {}
     }
 
     private String getBuildings() throws Exception{
         return getInfo(urlServer, "GET", "/buildings");
+    }
+
+    private String getCivs() throws Exception{
+        return getInfo(urlServer, "GET", "/units");
     }
 
     private String getInfo(String urlLink, String method, String extention) throws Exception{
