@@ -26,7 +26,7 @@ public class Unit {
 
     public Unit(String name, String[] allAges, String unitBatiment, String[] unitCost, String buildingTime, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
-        this.allAges = getAgesString(allAges);
+        this.allAges = allAges;
         this.unitBatiment = unitBatiment;
         this.unitCost = unitCost;
         this.buildingTime = buildingTime;
@@ -48,7 +48,7 @@ public class Unit {
     }
 
     public void setAllAges(String[] allAges) {
-        this.allAges = getAgesString(allAges);
+        this.allAges = allAges;
     }
 
     public String getUnitBatiment() {

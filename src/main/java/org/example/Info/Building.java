@@ -25,7 +25,7 @@ public class Building {
 
     public Building(String name, String[] ages, String type, String[] cost, String time, int hitPoint, int visibility, String[] civilisations) {
         this.name = name;
-        this.ages = getAgesString(ages);
+        this.ages = ages;
         this.type = type;
         this.cost = cost;
         this.time = time;
