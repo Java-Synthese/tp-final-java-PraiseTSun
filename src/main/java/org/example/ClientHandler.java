@@ -33,8 +33,12 @@ public class ClientHandler {
         return getInfo(urlServer, "GET", "/units");
     }
 
-    private String getBuildingByAges(String target) throws  Exception{
-        return getInfo(urlServer, "GET", "/ages/:age/Building");
+    private String getBuildingsByAges(String target) throws  Exception{
+        return getInfo(urlServer, "GET", "/ages/:age/buildings");
+    }
+
+    private String getUnitsByAges(String target) throws  Exception{
+        return getInfo(urlServer, "GET", "/ages/:age/units");
     }
 
     private String getInfo(String urlLink, String method, String extention) throws Exception{
