@@ -18,6 +18,9 @@ public class ClientHandler {
             System.out.println(getBuildings());
             System.out.println(getCivs());
             System.out.println(getUnits());
+            System.out.println(getBuildingsByAges("1"));
+            System.out.println(getUnitsByAges("1"));
+            System.out.println(getUnit("Champion"));
         } catch (Exception e) {}
     }
 
@@ -39,6 +42,10 @@ public class ClientHandler {
 
     private String getUnitsByAges(String target) throws  Exception{
         return getInfo(urlServer, "GET", "/ages/:age/units");
+    }
+
+    private String getUnit (String target) throws  Exception{
+        return getUnits();
     }
 
     private String getInfo(String urlLink, String method, String extention) throws Exception{
