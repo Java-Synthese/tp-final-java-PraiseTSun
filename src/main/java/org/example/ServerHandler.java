@@ -84,9 +84,9 @@ public class ServerHandler {
 
     private void handleDeleteUnits(HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        Unit unit = readArgumentUnit(exchange);
-        if(unitsMap.containsKey(unit.getName())){
-            unitsMap.remove(unit.getName());
+        String unitName = "Test";
+        if(unitsMap.containsKey(unitName)){
+            unitsMap.remove(unitName);
             exchange.sendResponseHeaders(201, -1);
         }else exchange.sendResponseHeaders(404, -1);
     }

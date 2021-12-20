@@ -14,7 +14,11 @@ public class ClientHandler {
 
     public void setUpServer(String[] args){
         argumentsHandler(args);
-        try { System.out.println(getCivs()); } catch (Exception e) {}
+        try {
+            System.out.println(getBuildings());
+            System.out.println(getCivs());
+            System.out.println(getUnits());
+        } catch (Exception e) {}
     }
 
     private String getBuildings() throws Exception{
@@ -22,6 +26,10 @@ public class ClientHandler {
     }
 
     private String getCivs() throws Exception{
+        return getInfo(urlServer, "GET", "/civs");
+    }
+
+    private String getUnits() throws  Exception{
         return getInfo(urlServer, "GET", "/units");
     }
 
