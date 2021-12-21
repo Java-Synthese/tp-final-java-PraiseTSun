@@ -52,9 +52,9 @@ public class ServerHandler {
             if(method.equals("GET"))
                 handleGetUnits(elements, exchange);
             else if(method.equals("POST"))
-                handlePostUnits(exchange);
+                handlePostUnits(elements, exchange);
             else if(method.equals("PUT"))
-                handlePutUnits(exchange);
+                handlePutUnits(elements, exchange);
             else if(method.equals("DELETE"))
                 handleDeleteUnits(elements, exchange);
             else
@@ -79,7 +79,7 @@ public class ServerHandler {
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
         if(elements.length == 2){
             String[] target = elements[1].split("=");
-            if(target[0].equals("unit_name") && unitsMap.containsKey(target[1])){
+            if(target[0].equals(":unit_name") && unitsMap.containsKey(target[1])){
                 unitsMap.remove(target[1]);
                 Unit unit = readArgumentUnit(exchange);
                 unitsMap.put(unit.getName(), unit);

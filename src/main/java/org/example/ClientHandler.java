@@ -24,7 +24,7 @@ public class ClientHandler {
             //System.out.println(getBuildingsByAges("3"));
             //System.out.println(getUnitsByAges("4"));
             //System.out.println(getUnit("Champion").toString());
-            deleteUnit("Champion");
+            //deleteUnit("Champion");
         } catch (Exception e) {}
     }
 
