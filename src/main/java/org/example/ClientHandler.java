@@ -22,8 +22,8 @@ public class ClientHandler {
             //System.out.println(getBuildings());
             //System.out.println(getCivs());
             //System.out.println(getUnits());
-            System.out.println(getBuildingsByAges("1"));
-            System.out.println(getUnitsByAges("1"));
+            //System.out.println(getBuildingsByAges("3"));
+            //System.out.println(getUnitsByAges("4"));
             //System.out.println(getUnit("Champion"));
         } catch (Exception e) {}
     }
@@ -40,19 +40,20 @@ public class ClientHandler {
         return getInfo(urlServer, "GET", "/units");
     }
 
-    private String getAgesSection(String data) throws  Exception{
+    private AgesSection getAgesSection(String data) throws  Exception{
         ObjectMapper mapper = new ObjectMapper();
         AgesSection ages = mapper.readValue(data, AgesSection.class);
-        return ages.toString();
+        return ages;
     }
 
     private String getBuildingsByAges(String target) throws  Exception{
-        return getInfo(urlServer, "GET", "/ages/:age/buildings");
+        String data =  getInfo(urlServer, "GET", "/ages/:age/buildings");
+        return getAgesSection(data).toString(target);
     }
 
     private String getUnitsByAges(String target) throws  Exception{
         String data = getInfo(urlServer, "GET", "/ages/:age/units");
-        return getAgesSection(data);
+        return getAgesSection(data).toString(target);
     }
 
     private String getUnit (String target) throws  Exception{

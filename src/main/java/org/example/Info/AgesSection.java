@@ -43,4 +43,16 @@ public class AgesSection {
 
         return info;
     }
+
+    public String toString(String nb){
+        String info ="\n***********************************************************\n" +
+                name +
+                "\n***********************************************************\n";
+
+        for(Ages ages : results)
+            if(ages.hasAge(nb))
+                info += ages.toString();
+
+        return info;
+    }
 }
