@@ -1,6 +1,7 @@
 package org.example.Info;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Unit {
@@ -111,5 +112,18 @@ public class Unit {
             }
         }
         return age;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n------------------------\n" +
+                "- Ages: " + String.join(" | ",getAgesString(allAges)) + "\n" +
+                "- UnitBatiment: " + unitBatiment + "\n" +
+                "- UnitCost: " + String.join(" | ", unitCost) + "\n" +
+                "- BuildingTime: " + buildingTime + "\n" +
+                "- HitPoint: " + hitPoint + "\n" +
+                "- Visibility: " + visibility + "\n" +
+                "- Civilisations: " + String.join(" | ", civilisations) +
+                "\n\n";
     }
 }

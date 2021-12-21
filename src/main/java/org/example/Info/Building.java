@@ -1,6 +1,7 @@
 package org.example.Info;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Building {
     private String name;
@@ -110,6 +111,18 @@ public class Building {
             }
         }
         return age;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n------------------------\n" +
+                "- Ages: " + String.join(" | ",getAgesString(ages)) + "\n" +
+                "- Type: " + type + "\n" +
+                "- Cost: " + String.join(" | ", cost) + "\n"+
+                "- Time: " + time + "\n" +
+                "- HitPoint: " + hitPoint + "\n" +
+                "- Visibility: " + visibility + "\n" +
+                "- Civilisations: " + String.join(" | ", civilisations) + "\n\n";
     }
 }
 

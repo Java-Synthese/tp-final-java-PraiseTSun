@@ -1,8 +1,7 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Info.Ages;
-import org.example.Info.AgesSection;
+import org.example.Info.*;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -19,25 +18,31 @@ public class ClientHandler {
     public void setUpServer(String[] args){
         argumentsHandler(args);
         try {
-            System.out.println(getBuildings());
-            //System.out.println(getCivs());
-            //System.out.println(getUnits());
+            //System.out.println(getBuildings().toString());
+            //System.out.println(getCivs().toString());
+            //System.out.println(getUnits().toString());
             //System.out.println(getBuildingsByAges("3"));
             //System.out.println(getUnitsByAges("4"));
-            //System.out.println(getUnit("Champion"));
+            System.out.println(getUnit("Champion").toString());
         } catch (Exception e) {}
     }
 
-    private String getBuildings() throws Exception{
-        return getInfo(urlServer, "GET", "/buildings");
+    private BuildingsSection getBuildings() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = getInfo(urlServer, "GET", "/buildings");
+        return mapper.readValue(info, BuildingsSection.class);
     }
 
-    private String getCivs() throws Exception{
-        return getInfo(urlServer, "GET", "/civs");
+    private CivsSection getCivs() throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = getInfo(urlServer, "GET", "/civs");
+        return mapper.readValue(info, CivsSection.class);
     }
 
-    private String getUnits() throws  Exception{
-        return getInfo(urlServer, "GET", "/units");
+    private UnitsSection getUnits() throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = getInfo(urlServer, "GET", "/units");
+        return mapper.readValue(info, UnitsSection.class);
     }
 
     private AgesSection getAgesSection(String data) throws  Exception{
@@ -56,8 +61,10 @@ public class ClientHandler {
         return getAgesSection(data).toString(target);
     }
 
-    private String getUnit (String target) throws  Exception{
-        return getUnits();
+    private Unit getUnit (String target) throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = getInfo(urlServer, "GET", "/units/:unit_name=" + target);
+        return mapper.readValue(info, Unit.class);
     }
 
     private String getInfo(String urlLink, String method, String extention) throws Exception{

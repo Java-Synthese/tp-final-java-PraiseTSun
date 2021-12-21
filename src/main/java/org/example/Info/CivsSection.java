@@ -1,5 +1,7 @@
 package org.example.Info;
 
+import java.util.Arrays;
+
 public class CivsSection {
     private  String name;
     private Civilisation[] results;
@@ -28,5 +30,16 @@ public class CivsSection {
 
     public void setResults(Civilisation[] results) {
         this.results = results;
+    }
+
+    @Override
+    public String toString() {
+        String info = "************************************************\n" + name +
+                "\n************************************************\n";
+
+        for(Civilisation civ : results)
+            info += civ.toString();
+
+        return info;
     }
 }

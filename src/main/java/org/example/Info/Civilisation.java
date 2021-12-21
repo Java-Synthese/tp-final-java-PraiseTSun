@@ -7,6 +7,15 @@ public class Civilisation {
     private String uniqueUnity;
     private String uniqueTechnology;
 
+
+    public Civilisation() {
+        this.name = null;
+        this.speciality = null;
+        this.bonus = null;
+        this.uniqueUnity = null;
+        this.uniqueTechnology = null;
+    }
+
     public Civilisation(String name, String speciality, String bonus, String uniqueUnity, String uniqueTechnology) {
         this.name = name;
         this.speciality = speciality;
@@ -53,5 +62,14 @@ public class Civilisation {
 
     public void setUniqueTechnology(String uniqueTechnology) {
         this.uniqueTechnology = uniqueTechnology;
+    }
+
+    @Override
+    public String toString() {
+        return name + "\n------------------------\n" +
+                "- Speciality: " + speciality + "\n" +
+                "- Bonus: " + bonus + "\n" +
+                "- UniqueUnity: " + uniqueUnity + "\n" +
+                "- UniqueTechnology: " + uniqueTechnology + "\n\n";
     }
 }

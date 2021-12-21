@@ -1,5 +1,7 @@
 package org.example.Info;
 
+import java.util.Arrays;
+
 public class BuildingsSection {
     private String name;
     private Building[] results;
@@ -28,5 +30,16 @@ public class BuildingsSection {
 
     public void setResults(Building[] results) {
         this.results = results;
+    }
+
+    @Override
+    public String toString() {
+        String info = "************************************************\n" + name +
+                "\n************************************************\n";
+
+        for(Building build : results)
+            info += build.toString();
+
+        return info;
     }
 }

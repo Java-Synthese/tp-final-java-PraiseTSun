@@ -128,13 +128,9 @@ public class ServerHandler {
 
     private void handleGetCivilisations(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
-            String info = "{\"civilisations\" : [";
+
             ObjectMapper mapper = new ObjectMapper();
-            for(Map.Entry<String, Civilisation> civs : civilisationMap.entrySet()){
-                info += mapper.writeValueAsString(civs.getValue()) + ",";
-            }
-            info = removeLastCharacter(info);
-            info += "]}";
+            String info = mapper.writeValueAsString(new CivsSection("civilisation", civilisationMap.values().toArray(new Civilisation[0])));
 
             exchange.sendResponseHeaders(200, 0);
             writeBuffer(info,exchange);

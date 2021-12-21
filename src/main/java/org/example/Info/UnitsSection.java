@@ -1,5 +1,7 @@
 package org.example.Info;
 
+import java.util.Arrays;
+
 public class UnitsSection {
     private String name;
     private Unit[] results;
@@ -29,5 +31,16 @@ public class UnitsSection {
 
     public void setResults(Unit[] results) {
         this.results = results;
+    }
+
+    @Override
+    public String toString() {
+        String info = "************************************************\n" + name +
+                "\n************************************************\n";
+
+        for(Unit unit : results)
+            info += unit.toString();
+
+        return info;
     }
 }
