@@ -32,9 +32,15 @@ public class Ages {
         this.ages = ages;
     }
 
+    public boolean hasAge(String nb){
+        for(String age : ages)
+            if(age.equals(nb))
+                return true;
+        return false;
+    }
     @Override
     public String toString() {
-        String info =  name + ":\n----------------------------------- ";
+        String info =  name + ":\n-----------------------------------\n";
         for(int i = 0; i < ages.length; i++) {
             switch (ages[i]) {
                 case "1": info += "- Dark Age\n"; break;

@@ -1,5 +1,9 @@
 package org.example;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.Info.Ages;
+import org.example.Info.AgesSection;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -15,12 +19,12 @@ public class ClientHandler {
     public void setUpServer(String[] args){
         argumentsHandler(args);
         try {
-            System.out.println(getBuildings());
-            System.out.println(getCivs());
-            System.out.println(getUnits());
+            //System.out.println(getBuildings());
+            //System.out.println(getCivs());
+            //System.out.println(getUnits());
             System.out.println(getBuildingsByAges("1"));
             System.out.println(getUnitsByAges("1"));
-            System.out.println(getUnit("Champion"));
+            //System.out.println(getUnit("Champion"));
         } catch (Exception e) {}
     }
 
@@ -36,12 +40,19 @@ public class ClientHandler {
         return getInfo(urlServer, "GET", "/units");
     }
 
+    private String getAgesSection(String data) throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        AgesSection ages = mapper.readValue(data, AgesSection.class);
+        return ages.toString();
+    }
+
     private String getBuildingsByAges(String target) throws  Exception{
         return getInfo(urlServer, "GET", "/ages/:age/buildings");
     }
 
     private String getUnitsByAges(String target) throws  Exception{
-        return getInfo(urlServer, "GET", "/ages/:age/units");
+        String data = getInfo(urlServer, "GET", "/ages/:age/units");
+        return getAgesSection(data);
     }
 
     private String getUnit (String target) throws  Exception{

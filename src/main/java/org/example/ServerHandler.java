@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.io.FilenameUtils;
+import org.example.Info.Ages;
 import org.example.Info.Building;
 import org.example.Info.Civilisation;
 import org.example.Info.Unit;
@@ -232,7 +233,7 @@ public class ServerHandler {
         } else exchange.sendResponseHeaders(404, 0);
     }
 
-    private String getAgesUnits(){
+    private String getAgesUnits() throws Exception{
         String info = "";
         for(Map.Entry<String, Unit> unit : unitsMap.entrySet()){
             info += getAgesUnit(unit.getValue()) + ",";
@@ -241,11 +242,13 @@ public class ServerHandler {
         return info;
     }
 
-    private String getAgesUnit(Unit unit){
-        return "{\"name\":\"" + unit.getName() + "\",\"ages\":[\"" + String.join("\",\"", unit.getAllAges()) + "\"]}";
+    private String getAgesUnit(Unit unit) throws  Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = mapper.writeValueAsString(new Ages(unit.getName(), unit.getAllAges()));
+        return info;
     }
 
-    private String getAgesBuildings(){
+    private String getAgesBuildings() throws Exception{
         String info = "";
         for(Map.Entry<String, Building> build : buildingsMap.entrySet()){
             info += getAgesBuilding(build.getValue()) + ",";
@@ -254,8 +257,10 @@ public class ServerHandler {
         return info;
     }
 
-    private String getAgesBuilding(Building build){
-        return "{\"name\":\"" + build.getName() + "\",\"ages\":[\"" + String.join("\",\"", build.getAges()) + "\"]}";
+    private String getAgesBuilding(Building build) throws Exception{
+        ObjectMapper mapper = new ObjectMapper();
+        String info = mapper.writeValueAsString(new Ages(build.getName(), build.getAges()));
+        return info;
     }
 
     private void exchangeTest(HttpExchange exchange){
