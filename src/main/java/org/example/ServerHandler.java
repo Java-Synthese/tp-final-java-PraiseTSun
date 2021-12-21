@@ -56,7 +56,7 @@ public class ServerHandler {
             else if(method.equals("PUT"))
                 handlePutUnits(exchange);
             else if(method.equals("DELETE"))
-                handleDeleteUnits(exchange);
+                handleDeleteUnits(elements, exchange);
             else
                 exchange.sendResponseHeaders(404,-1);
         } catch (Exception e) {}
@@ -80,12 +80,14 @@ public class ServerHandler {
 
     }
 
-    private void handleDeleteUnits(HttpExchange exchange) throws Exception{
+    private void handleDeleteUnits(String[] elements, HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        String unitName = "Test";
-        if(unitsMap.containsKey(unitName)){
-            unitsMap.remove(unitName);
-            exchange.sendResponseHeaders(201, -1);
+        if(elements.length == 2){
+            String[] target = elements[1].split("=");
+            if(target[0].equals("unit_name") && unitsMap.containsKey(target[1])){
+                unitsMap.remove(target[1]);
+                exchange.sendResponseHeaders(201, -1);
+            }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
     }
 

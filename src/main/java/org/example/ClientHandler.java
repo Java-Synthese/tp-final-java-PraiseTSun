@@ -23,8 +23,13 @@ public class ClientHandler {
             //System.out.println(getUnits().toString());
             //System.out.println(getBuildingsByAges("3"));
             //System.out.println(getUnitsByAges("4"));
-            System.out.println(getUnit("Champion").toString());
+            //System.out.println(getUnit("Champion").toString());
+            deleteUnit("Champion");
         } catch (Exception e) {}
+    }
+
+    private void deleteUnit(String name) throws Exception{
+        getInfo(urlServer, "DELETE", "/units/unit_name=" + name);
     }
 
     private BuildingsSection getBuildings() throws Exception{
