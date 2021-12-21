@@ -155,13 +155,8 @@ public class ServerHandler {
 
     private void handleGetBuildings(String[] elements, HttpExchange exchange) throws  Exception{
         if(elements.length == 1){
-            String info = "{\"buildinds\" : [";
             ObjectMapper mapper = new ObjectMapper();
-            for(Map.Entry<String, Building> builds : buildingsMap.entrySet()){
-                info += mapper.writeValueAsString(builds.getValue()) + ",";
-            }
-            info = removeLastCharacter(info);
-            info += "]}";
+            String info = mapper.writeValueAsString(new BuildingsSection("Buildings", buildingsMap.values().toArray(new Building[0])));
 
             exchange.sendResponseHeaders(200, 0);
             writeBuffer(info,exchange);
