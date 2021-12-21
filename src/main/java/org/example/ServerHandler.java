@@ -14,10 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 import org.apache.commons.io.FilenameUtils;
-import org.example.Info.Ages;
-import org.example.Info.Building;
-import org.example.Info.Civilisation;
-import org.example.Info.Unit;
+import org.example.Info.*;
 
 public class ServerHandler {
     private final String TEST_UNITS = "{\"name\":\"Test\",\"allAges\":[\"1\"],\"unitBatiment\":\"Stable\",\"unitCost\":[\"75G\",\"60F\"],\"buildingTime\":\"0:30\",\"visibility\":4,\"civilisations\":[\"Chinese\",\"Franks\",\"Japanese\",\"Mongols\",\"Persians\"],\"livingPoint\":120}";
@@ -95,12 +92,7 @@ public class ServerHandler {
     private void handleGetUnits(String[] elements, HttpExchange exchange) throws  Exception{
         ObjectMapper mapper = new ObjectMapper();
         if(elements.length == 1){
-            String info = "{\"Units\" : [";
-            for(Map.Entry<String, Unit> unit : unitsMap.entrySet()){
-                info +=  mapper.writeValueAsString(unit.getValue()) + ",";
-            }
-            info = removeLastCharacter(info);
-            info += "]}";
+            String info = mapper.writeValueAsString(new UnitsSection("Units", unitsMap.values().toArray(new Unit[0])));
 
             exchange.sendResponseHeaders(200, 0);
             writeBuffer(info,exchange);

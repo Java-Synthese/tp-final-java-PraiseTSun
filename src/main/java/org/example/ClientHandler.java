@@ -21,7 +21,7 @@ public class ClientHandler {
         try {
             //System.out.println(getBuildings());
             //System.out.println(getCivs());
-            //System.out.println(getUnits());
+            System.out.println(getUnits());
             //System.out.println(getBuildingsByAges("3"));
             //System.out.println(getUnitsByAges("4"));
             //System.out.println(getUnit("Champion"));
