@@ -210,7 +210,7 @@ public class ServerHandler {
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        info += "{\"units\":[" + getAgesUnits() + "]}";
+                        info += "{\"name\":\"units\",\"results\":[" + getAgesUnits() + "]}";
                         writeBuffer(info, exchange);
                     }
                 }
@@ -224,7 +224,7 @@ public class ServerHandler {
                     }
                     else{
                         exchange.sendResponseHeaders(202, 0);
-                        info += "{\"buildings\":[" + getAgesBuildings() + "]}";
+                        info += "{\"name\":\"buildings\",\"results\":[" + getAgesBuildings() + "]}";
                         writeBuffer(info, exchange);
                     }
                 } else exchange.sendResponseHeaders(404, 0);
