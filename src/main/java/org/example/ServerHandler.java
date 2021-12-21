@@ -63,20 +63,30 @@ public class ServerHandler {
         finally{ exchange.close(); }
     }
 
-    private void handlePostUnits(HttpExchange exchange) throws Exception{
+    private void handlePostUnits(String[] elements, HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        Unit unit = readArgumentUnit(exchange);
+        if(elements.length == 1){
+            Unit unit = readArgumentUnit(exchange);
 
-        if(!unitsMap.containsKey(unit.getName())){
-            unitsMap.put(unit.getName(), unit);
-            exchange.sendResponseHeaders(201,0);
-        }else exchange.sendResponseHeaders(203,0);
+            if(!unitsMap.containsKey(unit.getName())){
+                unitsMap.put(unit.getName(), unit);
+                exchange.sendResponseHeaders(201,0);
+            }else exchange.sendResponseHeaders(203,0);
+        }else exchange.sendResponseHeaders(404, 0);
     }
 
-    private void handlePutUnits(HttpExchange exchange) throws Exception{
+    private void handlePutUnits(String[] elements, HttpExchange exchange) throws Exception{
         // curl -i -X POST localhost:12345/units -H 'Content-Type: application/json' -d '{"test" : "test"}'
-        exchange.sendResponseHeaders(200,0);
-        writeBuffer("Unit PUT", exchange);
+        if(elements.length == 2){
+            String[] target = elements[1].split("=");
+            if(target[0].equals("unit_name") && unitsMap.containsKey(target[1])){
+                unitsMap.remove(target[1]);
+                Unit unit = readArgumentUnit(exchange);
+                unitsMap.put(unit.getName(), unit);
+
+                exchange.sendResponseHeaders(201, -1);
+            }else exchange.sendResponseHeaders(404, -1);
+        }else exchange.sendResponseHeaders(404, -1);
 
     }
 
