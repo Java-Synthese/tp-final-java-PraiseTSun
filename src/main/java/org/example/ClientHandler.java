@@ -18,13 +18,20 @@ public class ClientHandler {
     public void setUpServer(String[] args){
         argumentsHandler(args);
         try {
-            //System.out.println(getBuildings().toString());
-            //System.out.println(getCivs().toString());
-            //System.out.println(getUnits().toString());
-            //System.out.println(getBuildingsByAges("3"));
-            //System.out.println(getUnitsByAges("4"));
-            //System.out.println(getUnit("Champion").toString());
-            //deleteUnit("Champion");
+            switch(args[7]){
+                case "get-buildings":
+                    System.out.print(getBuildings());
+                    break;
+                case "get-civs":
+                    System.out.println(getCivs());
+                    break;
+                case "get-units":
+                    System.out.println(getUnits());
+                    break;
+                case "get-buildings-by-ages":
+                    System.out.println();
+                    break;
+            }
         } catch (Exception e) {}
     }
 
@@ -72,6 +79,9 @@ public class ClientHandler {
         return mapper.readValue(info, Unit.class);
     }
 
+    private String getInfo(String urlLink, String method, String extention, String request) throws Exception {
+        return null;
+    }
     private String getInfo(String urlLink, String method, String extention) throws Exception{
         String content = "";
         URL url = new URL(urlLink + extention);
