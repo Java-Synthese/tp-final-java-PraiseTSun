@@ -1,5 +1,7 @@
 package org.example.Info;
 
+import java.util.Arrays;
+
 public class Ages {
     private String name;
     private String[] ages;
@@ -28,5 +30,19 @@ public class Ages {
 
     public void setAges(String[] ages) {
         this.ages = ages;
+    }
+
+    @Override
+    public String toString() {
+        String info =  name + ":\n----------------------------------- ";
+        for(int i = 0; i < ages.length; i++) {
+            switch (ages[i]) {
+                case "1": info += "- Dark Age\n"; break;
+                case "2": info += "- Feudal Age\n"; break;
+                case "3": info += "- Castle Age\n"; break;
+                case "4": info += "- Imperial Age\n"; break;
+            }
+        }
+        return info + "\n";
     }
 }
