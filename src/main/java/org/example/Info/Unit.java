@@ -114,6 +114,10 @@ public class Unit {
         return age;
     }
 
+    public String toData(){
+        return name + "\t" + String.join(" ",allAges) + "\t" + unitBatiment + "\t" + String.join(" ", unitCost) + "\t" + buildingTime + "\t" + hitPoint + "\t" + visibility + "\t" + String.join(" ", civilisations);
+    }
+
     @Override
     public String toString() {
         return name + "\n------------------------\n" +
