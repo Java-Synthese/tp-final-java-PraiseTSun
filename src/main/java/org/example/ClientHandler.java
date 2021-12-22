@@ -26,13 +26,16 @@ public class ClientHandler {
                 case "get-civs":
                     System.out.println(getCivs());
                     break;
+                case "get-unit":
+                    System.out.println(getUnit(args[5]));
+                    break;
                 case "get-units":
                     System.out.println(getUnits());
                     break;
-                case "get-buildings-by-ages":
+                case "get-buildings-by-age":
                     System.out.println(getBuildingsByAges(args[5]));
                     break;
-                case "get-units-by-ages":
+                case "get-units-by-age":
                     System.out.println(getUnitsByAges(args[5]));
                     break;
                 case "delete-unit":
@@ -77,6 +80,15 @@ public class ClientHandler {
         ObjectMapper mapper = new ObjectMapper();
         String info = getInfo(urlServer, "GET", "/units");
         return mapper.readValue(info, UnitsSection.class);
+    }
+
+    private Unit getUnit(String name)throws Exception{
+        UnitsSection all = getUnits();
+        for (Unit unit: all.getResults()) {
+            if(unit.getName().equals(name))
+                return unit;
+        }
+        return null;
     }
 
     private AgesSection getAgesSection(String data) throws  Exception{
