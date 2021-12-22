@@ -64,7 +64,9 @@ public class Civilisation {
         this.uniqueTechnology = uniqueTechnology;
     }
 
-
+    public String toData(){
+        return name + "\t" + speciality + "\t" + bonus + "\t" + uniqueUnity + "\t" + uniqueTechnology;
+    }
 
     @Override
     public String toString() {
