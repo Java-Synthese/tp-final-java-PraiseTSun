@@ -2,11 +2,14 @@ package org.example;
 
 public class App {
     public static void main( String[] args ) {
-        String[] arg = {"--server", "-port", "12345", "--data", "data/", "--threads", "6"};
-        ServerHandler server = new ServerHandler();
-        server.setUpServer(arg);
-
-        ClientHandler client = new ClientHandler();
-        client.setUpServer(arg);
+        String[] arg = {"--server", "-port", "8888", "--data", "data/", "--threads", "6"};
+        if(arg[0].equals("--server")) {
+            ServerHandler server = new ServerHandler();
+            server.setUpServer(arg);
+        }else{
+            arg = new String[] {"java", "-jar", "votreApp.jar", "localhost:8888", "get-civs"};
+            ClientHandler client = new ClientHandler();
+            client.setUpServer(arg);
+        }
     }
 }

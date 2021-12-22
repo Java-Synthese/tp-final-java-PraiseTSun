@@ -13,12 +13,12 @@ import java.nio.file.Paths;
 public class ClientHandler {
     private final int SERVER_PORT = 8888;
 
-    private String urlServer = "http://localhost:";
+    private String urlServer = "http://";
 
     public void setUpServer(String[] args){
         argumentsHandler(args);
         try {
-            switch(args[7]){
+            switch(args[4]){
                 case "get-buildings":
                     System.out.print(getBuildings());
                     break;
@@ -29,7 +29,17 @@ public class ClientHandler {
                     System.out.println(getUnits());
                     break;
                 case "get-buildings-by-ages":
-                    System.out.println();
+                    System.out.println(getBuildingsByAges(args[5]));
+                    break;
+                case "get-units-by-ages":
+                    System.out.println(getUnitsByAges(args[5]));
+                    break;
+                case "delete-unit":
+                    deleteUnit(args[5]);
+                    break;
+                case "new-unit":
+                    break;
+                case "update-unit":
                     break;
             }
         } catch (Exception e) {}
@@ -73,15 +83,6 @@ public class ClientHandler {
         return getAgesSection(data).toString(target);
     }
 
-    private Unit getUnit (String target) throws  Exception{
-        ObjectMapper mapper = new ObjectMapper();
-        String info = getInfo(urlServer, "GET", "/units/:unit_name=" + target);
-        return mapper.readValue(info, Unit.class);
-    }
-
-    private String getInfo(String urlLink, String method, String extention, String request) throws Exception {
-        return null;
-    }
     private String getInfo(String urlLink, String method, String extention) throws Exception{
         String content = "";
         URL url = new URL(urlLink + extention);
@@ -99,6 +100,6 @@ public class ClientHandler {
     }
 
     private void argumentsHandler(String[] arguments){
-        urlServer += Integer.parseInt(arguments[2]);
+        urlServer += arguments[3];
     }
 }

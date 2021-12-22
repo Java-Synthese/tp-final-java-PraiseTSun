@@ -7,7 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.concurrent.Executor;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,6 +22,7 @@ public class ServerHandler {
 
     private int serverPort;
     private Path dataFolder;
+    private int nbThr = 1;
 
     private Map<String, Unit> unitsMap = new HashMap<>();
     private Map<String, Civilisation> civilisationMap = new HashMap<>();
@@ -34,7 +35,16 @@ public class ServerHandler {
     }
 
     private void initServer() throws Exception {
+        //ThreadPool tp = new ThreadPool(nbThr);
         HttpServer server = HttpServer.create(new InetSocketAddress(serverPort), 4);
+
+        server.setExecutor(new Executor() {
+            @Override
+            public void execute(Runnable command) {
+                (new Thread(command)).start();;
+                //tp.addTask(comand);
+            }
+        });
 
         server.createContext("/test", exchange -> { exchangeTest(exchange);});
         server.createContext("/ages", exchange -> { exchangeAges(exchange);});
@@ -285,6 +295,8 @@ public class ServerHandler {
         if(!Files.isDirectory(Paths.get(arguments[4])))
             throw new RuntimeException(arguments[4] + " is not the data folder path.");
         dataFolder = Paths.get(arguments[4]);
+
+        nbThr = Integer.parseInt(arguments[6]);
     }
 
     private void readFiles(){
