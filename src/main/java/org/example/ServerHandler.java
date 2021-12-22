@@ -2,6 +2,7 @@ package org.example;
 
 import java.io.*;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +20,9 @@ import org.example.Info.*;
 public class ServerHandler {
     private final String TEST_UNITS = "{\"name\":\"Test\",\"allAges\":[\"1\"],\"unitBatiment\":\"Stable\",\"unitCost\":[\"75G\",\"60F\"],\"buildingTime\":\"0:30\",\"visibility\":4,\"civilisations\":[\"Chinese\",\"Franks\",\"Japanese\",\"Mongols\",\"Persians\"],\"livingPoint\":120}";
     private final String EXT = "tab";
+
+    private File unitPath = null;
+    private File buildingPath = null;
 
     private int serverPort;
     private Path dataFolder;
@@ -80,6 +84,7 @@ public class ServerHandler {
 
             if(!unitsMap.containsKey(unit.getName())){
                 unitsMap.put(unit.getName(), unit);
+                writeUnit();
                 exchange.sendResponseHeaders(201,0);
             }else exchange.sendResponseHeaders(203,0);
         }else exchange.sendResponseHeaders(404, 0);
@@ -93,7 +98,7 @@ public class ServerHandler {
                 unitsMap.remove(target[1]);
                 Unit unit = readArgumentUnit(exchange);
                 unitsMap.put(unit.getName(), unit);
-
+                writeUnit();
                 exchange.sendResponseHeaders(201, -1);
             }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
@@ -106,6 +111,7 @@ public class ServerHandler {
             String[] target = elements[1].split("=");
             if(target[0].equals("unit_name") && unitsMap.containsKey(target[1])){
                 unitsMap.remove(target[1]);
+                writeUnit();
                 exchange.sendResponseHeaders(201, -1);
             }else exchange.sendResponseHeaders(404, -1);
         }else exchange.sendResponseHeaders(404, -1);
@@ -328,6 +334,15 @@ public class ServerHandler {
                         break;
                 }
             }
+        } catch (IOException e) {}
+    }
+
+    private void writeUnit(){
+        try(OutputStream os = new BufferedOutputStream(Files.newOutputStream(Paths.get(dataFolder + "units.tab"))) ){
+            for(Map.Entry<String, Unit> unit : unitsMap.entrySet()){
+                os.write(unit.getValue().toData().getBytes(StandardCharsets.UTF_8));
+            }
+            os.flush();
         } catch (IOException e) {}
     }
 

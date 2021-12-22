@@ -7,7 +7,7 @@ public class App {
             ServerHandler server = new ServerHandler();
             server.setUpServer(arg);
         }
-        arg = new String[] {"java", "-jar", "votreApp.jar", "localhost:8888", "get-unit", "Long Swordsman"};
+        arg = new String[] {"java", "-jar", "votreApp.jar", "localhost:8888", "get-units", "Archer"};
         if (arg[0].equals("java")){
             ClientHandler client = new ClientHandler();
             client.setUpServer(arg);
