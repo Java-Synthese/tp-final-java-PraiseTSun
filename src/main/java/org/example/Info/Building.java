@@ -113,6 +113,10 @@ public class Building {
         return age;
     }
 
+    public String toData(){
+        return name + "\t" + String.join(" ", ages) + "\t" + type + "\t" + String.join(" ", cost) + "\t" + time + "\t" + hitPoint + "\t" + visibility + "\t" + String.join(" ", civilisations);
+    }
+
     @Override
     public String toString() {
         return name + "\n------------------------\n" +
