@@ -17,6 +17,7 @@ public class ClientHandler {
 
     public void setUpServer(String[] args){
         argumentsHandler(args);
+        ObjectMapper mapper = new ObjectMapper();
         try {
             switch(args[4]){
                 case "get-buildings":
@@ -38,12 +39,23 @@ public class ClientHandler {
                     deleteUnit(args[5]);
                     break;
                 case "new-unit":
+                    Unit unit = newUnit(args[5]);
+                    newUnit(unit.getName(), mapper.writeValueAsString(unit));
                     break;
                 case "update-unit":
+                    unit = newUnit(args[5]);
+                    updateUnit(unit.getName(), mapper.writeValueAsString(unit));
                     break;
             }
         } catch (Exception e) {}
     }
+
+    private Unit newUnit(String info){
+        String[] u = info.split(",");
+        return new Unit(u[0], u[1].split(" "), u[2], u[3].split(" "), u[4], Integer.parseInt(u[5]), Integer.parseInt(u[6]), u[7].split(" "));
+    }
+    private void newUnit(String name, String body) throws Exception{getInfo(urlServer, "POST", "/units/:unit="+body, body);}
+    private void updateUnit(String name, String body) throws Exception{getInfo(urlServer, "POST", "/units/:unit="+body, body);}
 
     private void deleteUnit(String name) throws Exception{
         getInfo(urlServer, "DELETE", "/units/unit_name=" + name);
@@ -81,6 +93,23 @@ public class ClientHandler {
     private String getUnitsByAges(String target) throws  Exception{
         String data = getInfo(urlServer, "GET", "/ages/:age/units");
         return getAgesSection(data).toString(target);
+    }
+
+    private String getInfo(String urlLink, String method, String extention, String body) throws Exception{
+        String content = "";
+        URL url = new URL(urlLink + extention);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod(method);
+        conn.setRequestProperty(body, "application/json; charset=UTF-8");
+
+        try(BufferedReader r = new BufferedReader(new InputStreamReader(conn.getInputStream()))){
+            String line;
+            while((line = r.readLine()) != null){
+                content += line;
+            }
+        }
+        conn.disconnect();
+        return content;
     }
 
     private String getInfo(String urlLink, String method, String extention) throws Exception{
